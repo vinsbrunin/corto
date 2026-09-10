@@ -1,1727 +1,763 @@
 <!doctype html>
 <html lang="fr">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Le Corto Malté</title>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+<title>Le Corto Malté — Carte des Vins &amp; Boissons</title>
+<meta name="theme-color" content="#6E1B24"/>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Cormorant+Garamond:wght@500;600;700&family=EB+Garamond:ital@0;1&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-/* =========================================================
-   TOKENS — lifted straight from the printed card's palette
-   (--paper #fff / --ink #2B241F / --wine #6E1B24 /
-    --wine-dark #4E1119 / --gold #B79256 / --muted #7A6E5F)
-   so the site reads as the same object as the paper menu.
-   ========================================================= */
 :root{
-  --paper:#FFFFFF;
-  --paper-raised:#FBF6EF;
+  --paper:#FFFCF8;
+  --paper-2:#FFFFFF;
   --ink:#2B241F;
-  --muted:#7A6E5F;
   --wine:#6E1B24;
   --wine-dark:#4E1119;
   --gold:#B79256;
-  --gold-soft:#B7925633;
-  --line: #6E1B242E;
-  --chip-bg:#FBF6EF;
-  --chip-active-bg:#6E1B24;
-  --chip-active-ink:#FBF6EF;
-  --shadow: 0 1px 2px #2B241F14, 0 8px 24px -12px #2B241F26;
-  --focus: #6E1B24;
+  --gold-soft:#EADFC8;
+  --muted:#7A6E5F;
+  --line:rgba(183,146,86,.35);
+  --shadow:0 8px 24px rgba(43,36,31,.08);
+  --braderie-bg:#FBF3E4;
+  --on-wine:#FFFFFF;
+  color-scheme:light;
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --paper:#1B1210;
-    --paper-raised:#241714;
-    --ink:#F1E7DA;
-    --muted:#B7A491;
-    --wine:#E39AA4;
-    --wine-dark:#F3C2C9;
-    --gold:#D3AD6C;
-    --gold-soft:#D3AD6C2E;
-    --line:#D3AD6C3D;
-    --chip-bg:#241714;
-    --chip-active-bg:#D3AD6C;
-    --chip-active-ink:#1B1210;
-    --shadow: 0 1px 2px #00000040, 0 12px 28px -14px #00000066;
-    --focus:#D3AD6C;
+    --paper:#1B1613;
+    --paper-2:#231C18;
+    --ink:#EDE4D8;
+    --wine:#E4A0A8;
+    --wine-dark:#F2C9CE;
+    --gold:#D8B77F;
+    --gold-soft:#3A2E20;
+    --muted:#B5A691;
+    --line:rgba(216,183,127,.28);
+    --shadow:0 8px 24px rgba(0,0,0,.35);
+    --braderie-bg:#2B2115;
+    --on-wine:#241A16;
+    color-scheme:dark;
   }
 }
 :root[data-theme="dark"]{
-  --paper:#1B1210;
-  --paper-raised:#241714;
-  --ink:#F1E7DA;
-  --muted:#B7A491;
-  --wine:#E39AA4;
-  --wine-dark:#F3C2C9;
-  --gold:#D3AD6C;
-  --gold-soft:#D3AD6C2E;
-  --line:#D3AD6C3D;
-  --chip-bg:#241714;
-  --chip-active-bg:#D3AD6C;
-  --chip-active-ink:#1B1210;
-  --shadow: 0 1px 2px #00000040, 0 12px 28px -14px #00000066;
-  --focus:#D3AD6C;
+  --paper:#1B1613;
+  --paper-2:#231C18;
+  --ink:#EDE4D8;
+  --wine:#E4A0A8;
+  --wine-dark:#F2C9CE;
+  --gold:#D8B77F;
+  --gold-soft:#3A2E20;
+  --muted:#B5A691;
+  --line:rgba(216,183,127,.28);
+  --shadow:0 8px 24px rgba(0,0,0,.35);
+  --braderie-bg:#2B2115;
+  --on-wine:#241A16;
+  color-scheme:dark;
 }
-
 *{box-sizing:border-box;}
-html,body{margin:0;padding:0;}
+html{-webkit-text-size-adjust:100%;}
 body{
-  background:var(--paper);
-  color:var(--ink);
-  font-family:'EB Garamond', Georgia, serif;
-  -webkit-font-smoothing:antialiased;
-  overflow-x:hidden;
+  margin:0;background:var(--paper);color:var(--ink);
+  font-family:'EB Garamond',serif;
+  padding-bottom:24px;
 }
 a{color:inherit;}
-::selection{background:var(--gold-soft);}
-:focus-visible{outline:2px solid var(--focus);outline-offset:2px;border-radius:2px;}
+.wrap{max-width:640px;margin:0 auto;padding:0 18px;}
 
-.wrap{max-width:640px;margin:0 auto;padding:0 20px;}
-
-/* ---------- Hero ---------- */
+/* ---- Hero ---- */
 .hero{
-  padding:56px 20px 34px;
-  text-align:center;
-  background:
-    radial-gradient(120% 100% at 50% -10%, var(--gold-soft), transparent 60%),
-    var(--paper);
-}
-.hero-ornament{
-  color:var(--gold);
-  font-size:15px;
-  margin-bottom:14px;
-}
-.hero-kicker{
-  font-family:'Montserrat',sans-serif;
-  font-weight:600;
-  font-size:11px;
-  letter-spacing:.32em;
-  text-transform:uppercase;
-  color:var(--muted);
-}
-.hero-title{
-  font-family:'Playfair Display', Georgia, serif;
-  font-weight:700;
-  font-size:clamp(34px, 9vw, 52px);
-  color:var(--wine-dark);
-  margin:8px 0 4px;
-  text-wrap:balance;
-  letter-spacing:.01em;
-}
-.hero-place{
-  font-family:'Montserrat',sans-serif;
-  font-size:12px;
-  letter-spacing:.28em;
-  text-transform:uppercase;
-  color:var(--wine);
-  margin-bottom:14px;
-}
-.hero-rule{
-  width:64px;height:1px;background:var(--gold);
-  margin:0 auto 14px;opacity:.8;
-}
-.hero-subtitle{
-  font-family:'Playfair Display', Georgia, serif;
-  font-style:italic;
-  font-size:16px;
-  color:var(--muted);
-}
-
-/* ---------- Sticky control bar ---------- */
-.controlbar{
-  position:sticky;top:0;z-index:30;
-  background:color-mix(in srgb, var(--paper) 92%, transparent);
-  -webkit-backdrop-filter:blur(10px);
-  backdrop-filter:blur(10px);
+  text-align:center;padding:34px 18px 22px;
+  background:linear-gradient(180deg, var(--paper-2), var(--paper));
   border-bottom:1px solid var(--line);
 }
-.search-row{
-  display:flex;align-items:center;gap:10px;
-  padding:10px 20px;max-width:640px;margin:0 auto;
+.hero-orn{color:var(--gold);font-size:15px;letter-spacing:.4em;margin-bottom:10px;}
+.hero-kicker{
+  font-family:'Montserrat',sans-serif;font-weight:600;font-size:11px;
+  letter-spacing:.3em;text-transform:uppercase;color:var(--muted);
 }
-.search-box{
-  flex:1;display:flex;align-items:center;gap:8px;
-  background:var(--paper-raised);
-  border:1px solid var(--line);
-  border-radius:10px;
-  padding:9px 12px;
+.hero-title{
+  font-family:'Playfair Display',serif;font-weight:700;font-size:34px;
+  color:var(--wine-dark);margin:6px 0 2px;letter-spacing:.01em;
 }
-.search-box svg{flex-shrink:0;opacity:.55;}
-.search-box input{
-  flex:1;border:none;background:none;color:var(--ink);
-  font-family:'EB Garamond', Georgia, serif;
-  font-size:16px;
-  min-width:0;
+.hero-place{
+  font-family:'Montserrat',sans-serif;font-weight:500;font-size:13px;
+  letter-spacing:.22em;text-transform:uppercase;color:var(--muted);
 }
-.search-box input::placeholder{color:var(--muted);opacity:.85;}
-.search-clear{
-  border:none;background:none;color:var(--muted);
-  font-size:18px;line-height:1;cursor:pointer;padding:2px 4px;
-  display:none;
+.hero-rule{width:44px;height:1px;background:var(--gold);margin:14px auto;opacity:.9;}
+.hero-sub{
+  font-family:'Cormorant Garamond',serif;font-style:italic;font-size:17px;color:var(--muted);
 }
-.search-clear.show{display:inline-flex;}
+.hero-jump{
+  display:inline-flex;align-items:center;gap:8px;margin-top:18px;
+  background:var(--wine);color:var(--on-wine);text-decoration:none;
+  font-family:'Montserrat',sans-serif;font-weight:600;font-size:12.5px;
+  letter-spacing:.08em;text-transform:uppercase;
+  padding:10px 20px;border-radius:999px;box-shadow:var(--shadow);
+}
 
+/* ---- Controlbar ---- */
+.controlbar{
+  position:sticky;top:0;z-index:20;
+  background:color-mix(in srgb, var(--paper) 92%, transparent);
+  backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--line);
+  padding:10px 0;
+}
+.searchbox{position:relative;padding:0 18px;}
+#search{
+  width:100%;border:1px solid var(--line);border-radius:10px;
+  background:var(--paper-2);color:var(--ink);
+  font-family:'EB Garamond',serif;font-size:16px;
+  padding:10px 14px 10px 36px;outline:none;
+}
+#search:focus{border-color:var(--gold);}
+.search-ic{position:absolute;left:30px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:14px;pointer-events:none;}
 .nav-scroll{
-  display:flex;gap:8px;overflow-x:auto;
-  padding:0 20px 12px;max-width:640px;margin:0 auto;
+  display:flex;gap:8px;overflow-x:auto;padding:10px 18px 2px;
   scrollbar-width:none;
 }
 .nav-scroll::-webkit-scrollbar{display:none;}
 .chip{
-  flex-shrink:0;
-  font-family:'Montserrat',sans-serif;
-  font-weight:600;font-size:12.5px;letter-spacing:.05em;
-  text-transform:uppercase;
-  text-decoration:none;
-  color:var(--wine);
-  background:var(--chip-bg);
-  border:1px solid var(--line);
-  border-radius:999px;
-  padding:7px 14px;
-  white-space:nowrap;
-  transition:background .18s ease, color .18s ease, border-color .18s ease;
+  flex:none;font-family:'Montserrat',sans-serif;font-weight:600;font-size:12px;
+  letter-spacing:.05em;color:var(--muted);
+  background:var(--paper-2);border:1px solid var(--line);
+  padding:7px 14px;border-radius:999px;text-decoration:none;white-space:nowrap;
+  transition:background .15s,color .15s,border-color .15s;
 }
-.chip.active{
-  background:var(--chip-active-bg);
-  color:var(--chip-active-ink);
-  border-color:transparent;
-}
-@media (prefers-reduced-motion: reduce){
-  .chip{transition:none;}
+.chip.active,.chip:hover{background:var(--wine);color:var(--on-wine);border-color:var(--wine);}
+.chip.chip-braderie{color:var(--wine-dark);border-color:var(--gold);background:var(--gold-soft);}
+.chip.chip-braderie.active,.chip.chip-braderie:hover{background:var(--wine);color:var(--on-wine);}
+.theme-toggle{
+  flex:none;width:32px;height:32px;border-radius:999px;
+  border:1px solid var(--line);background:var(--paper-2);color:var(--muted);
+  font-size:14px;display:flex;align-items:center;justify-content:center;cursor:pointer;
 }
 
-/* ---------- Sections ---------- */
-main{padding-bottom:80px;}
-.menu-section{
-  padding:38px 20px 6px;
-  max-width:640px;margin:0 auto;
-  opacity:0;
-  transform:translateY(10px);
-  transition:opacity .5s ease, transform .5s ease;
+/* ---- Sections ---- */
+main{padding-top:6px;}
+section.card-section{padding:26px 18px 4px;opacity:0;transform:translateY(10px);transition:opacity .5s ease, transform .5s ease;}
+section.card-section.in{opacity:1;transform:none;}
+.sec-head{text-align:center;margin-bottom:16px;}
+.sec-kicker{
+  font-family:'Montserrat',sans-serif;font-weight:600;font-size:10px;
+  letter-spacing:.28em;text-transform:uppercase;color:var(--gold);
 }
-.menu-section.in-view{opacity:1;transform:none;}
-@media (prefers-reduced-motion: reduce){
-  .menu-section{transition:none;opacity:1;transform:none;}
+.sec-title{
+  font-family:'Playfair Display',serif;font-weight:700;font-size:23px;
+  color:var(--wine-dark);margin:3px 0 0;
 }
-.section-head{
-  display:flex;align-items:baseline;gap:12px;
-  border-bottom:1px solid var(--gold);
-  padding-bottom:10px;margin-bottom:18px;
-}
-.section-kicker{
-  font-family:'Playfair Display', Georgia, serif;
-  font-style:italic;
-  font-size:15px;
-  color:var(--gold);
-}
-.section-title{
-  font-family:'Playfair Display', Georgia, serif;
-  font-weight:600;font-size:26px;
-  color:var(--wine-dark);
-  margin:0;
-}
+.sec-rule{width:30px;height:1px;background:var(--gold);margin:10px auto 0;opacity:.85;}
 
-.group{margin-bottom:22px;}
-.group.hidden{display:none;}
-.tag{
+.group{margin-bottom:20px;}
+.group-tag{
   display:flex;justify-content:space-between;align-items:baseline;
-  font-family:'Montserrat',sans-serif;font-weight:600;font-size:12px;
-  letter-spacing:.14em;text-transform:uppercase;color:var(--wine);
-  border-bottom:1px solid var(--gold);
-  padding-bottom:6px;margin:0 0 12px 0;
+  font-family:'Montserrat',sans-serif;font-weight:600;font-size:12.5px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--wine);
+  border-bottom:1px solid var(--line);padding-bottom:6px;margin:0 0 8px;
 }
-.tag-unit{font-weight:500;letter-spacing:.06em;color:var(--muted);text-transform:none;}
-.tag.tag-foreign{color:var(--muted);}
-.tag.tag-foreign::after{
-  content:"étranger";
-  font-weight:500;letter-spacing:.1em;font-size:10px;color:var(--muted);
-  opacity:.75;
-}
-
-.subhead{
-  display:flex;justify-content:space-between;align-items:baseline;
-  font-family:'Montserrat',sans-serif;font-weight:600;font-size:11px;
-  letter-spacing:.08em;text-transform:uppercase;color:var(--muted);
-  border-bottom:1px dotted var(--line);
-  padding-bottom:5px;margin:16px 0 8px;
-}
-.subhead .unit{font-weight:500;text-transform:none;font-size:11px;}
-
-.row{
-  display:flex;justify-content:space-between;align-items:baseline;gap:14px;
-  padding:9px 0;border-bottom:1px dotted var(--line);
-}
+.group-unit{font-weight:500;color:var(--muted);font-size:10.5px;letter-spacing:.06em;}
+.row{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:7px 0;border-bottom:1px dashed var(--line);}
 .row:last-child{border-bottom:none;}
-.row.hidden{display:none;}
 .row-txt{display:flex;flex-direction:column;min-width:0;}
-.row-name{font-family:'Cormorant Garamond', Georgia, serif;font-weight:600;font-size:17px;color:var(--ink);}
-.row-note{font-family:'EB Garamond', Georgia, serif;font-style:italic;font-size:13.5px;color:var(--muted);}
-.row-price{
-  font-family:'Montserrat',sans-serif;font-weight:600;font-size:15px;color:var(--wine);
-  white-space:nowrap;font-variant-numeric:tabular-nums;
-}
+.row-name{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:17px;color:var(--ink);}
+.row-note{font-family:'EB Garamond',serif;font-style:italic;font-size:13px;color:var(--muted);}
+.row-price{font-family:'Montserrat',sans-serif;font-weight:600;font-size:15px;color:var(--wine);white-space:nowrap;}
+.row-prices{display:flex;gap:10px;}
+.row-prices span{font-family:'Montserrat',sans-serif;font-weight:600;font-size:14px;color:var(--wine);}
 
-.price-grid{display:flex;flex-shrink:0;gap:2px;}
-.price-grid .price-cell{
-  width:44px;text-align:right;white-space:nowrap;
-  font-variant-numeric:tabular-nums;
+.region-block{margin-bottom:22px;}
+.region-name{
+  font-family:'Playfair Display',serif;font-style:italic;font-weight:600;font-size:15px;
+  color:var(--gold);margin:0 0 8px;
 }
-.row .price-grid .price-cell{font-family:'Montserrat',sans-serif;font-weight:600;font-size:15px;color:var(--wine);}
-.subhead .price-grid.sizes .price-cell{
-  font-family:'Montserrat',sans-serif;font-weight:500;font-size:10.5px;
-  letter-spacing:0;text-transform:none;color:var(--muted);
-}
+.wine-row{padding:10px 0;border-bottom:1px dashed var(--line);}
+.wine-row:last-child{border-bottom:none;}
+.wine-top{display:flex;justify-content:space-between;align-items:baseline;gap:10px;}
+.wine-name{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:18px;color:var(--ink);}
+.wine-mill{color:var(--muted);font-weight:500;font-size:14px;}
+.wine-price{font-family:'Montserrat',sans-serif;font-weight:700;font-size:16px;color:var(--wine);white-space:nowrap;}
+.wine-meta{font-family:'Montserrat',sans-serif;font-size:11px;letter-spacing:.03em;color:var(--muted);margin-top:2px;}
+.wine-desc{font-family:'EB Garamond',serif;font-style:italic;font-size:14.5px;color:var(--muted);margin-top:3px;line-height:1.35;}
 
-.wine{padding:12px 0;border-bottom:1px dotted var(--line);}
-.wine:last-child{border-bottom:none;}
-.wine.hidden{display:none;}
-.wine-head{display:flex;justify-content:space-between;align-items:baseline;gap:14px;}
-.wine-name{font-family:'Cormorant Garamond', Georgia, serif;font-weight:600;font-size:17px;color:var(--ink);line-height:1.2;}
-.wine-price{
-  font-family:'Montserrat',sans-serif;font-weight:600;font-size:15px;color:var(--wine);
-  white-space:nowrap;font-variant-numeric:tabular-nums;
-  display:flex;align-items:baseline;gap:4px;
-}
-.price-unit{
-  font-family:'Montserrat',sans-serif;font-weight:500;font-size:10px;
-  letter-spacing:.04em;text-transform:uppercase;color:var(--muted);
-}
-.wine-meta{
-  font-family:'Montserrat',sans-serif;font-weight:500;font-size:11px;letter-spacing:.03em;
-  text-transform:uppercase;color:var(--muted);margin-top:3px;
-}
-.wine-desc{
-  font-family:'EB Garamond', Georgia, serif;font-style:italic;font-size:15px;color:var(--ink);
-  opacity:.86;
-  line-height:1.4;margin-top:5px;
-}
-.wine-desc .cepage{font-style:normal;font-weight:600;color:var(--wine-dark);opacity:1;}
+#emptyNote{display:none;text-align:center;padding:40px 18px;font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--muted);font-size:18px;}
 
-.empty-note{
-  display:none;
-  font-family:'EB Garamond', Georgia, serif;font-style:italic;color:var(--muted);
-  padding:40px 0;text-align:center;font-size:16px;
+/* ---- Braderie special section ---- */
+#braderie{background:var(--braderie-bg);border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+.braderie-badge{
+  display:inline-block;font-family:'Montserrat',sans-serif;font-weight:700;font-size:10.5px;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--on-wine);background:var(--wine);
+  padding:4px 12px;border-radius:999px;margin-bottom:8px;
 }
-.empty-note.show{display:block;}
-
-/* ---------- Footer ---------- */
-footer{
-  max-width:640px;margin:0 auto;padding:26px 20px 46px;
-  display:flex;align-items:center;gap:14px;
-  font-family:'Montserrat',sans-serif;font-size:11px;letter-spacing:.14em;
-  text-transform:uppercase;color:var(--muted);
+.braderie-dates{
+  font-family:'Montserrat',sans-serif;font-weight:600;font-size:12.5px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--wine);margin-top:4px;
 }
-.footer-rule{flex:1;height:1px;background:var(--gold);opacity:.6;}
-.footer-brand{color:var(--wine);font-weight:600;}
+.formule-card{
+  border:1px solid var(--gold);border-radius:12px;padding:18px 18px 16px;
+  background:var(--paper-2);box-shadow:var(--shadow);margin:18px 0;
+}
+.formule-title{
+  font-family:'Playfair Display',serif;font-weight:600;font-size:19px;
+  color:var(--wine-dark);text-align:center;margin:0 0 14px;
+}
+.formule-step{margin-bottom:12px;padding-bottom:12px;border-bottom:1px dashed var(--line);}
+.formule-step:last-of-type{border-bottom:none;margin-bottom:0;padding-bottom:0;}
+.step-label{
+  font-family:'Montserrat',sans-serif;font-weight:600;font-size:10.5px;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:2px;
+}
+.step-name{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:17px;color:var(--ink);}
+.step-desc{font-family:'EB Garamond',serif;font-style:italic;font-size:13.5px;color:var(--muted);margin-top:2px;}
+.formule-price{text-align:center;margin-top:14px;padding-top:14px;border-top:1px solid var(--line);}
+.formule-price .amount{font-family:'Playfair Display',serif;font-weight:700;font-size:30px;color:var(--wine);}
+.formule-price .label{
+  display:block;font-family:'Montserrat',sans-serif;font-weight:500;font-size:10px;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-top:2px;
+}
+.ruffus-card{
+  background:var(--paper-2);border-radius:10px;padding:16px 18px;margin:6px 0 4px;
+  display:flex;flex-direction:column;gap:3px;box-shadow:var(--shadow);
+}
+.ruffus-name{font-family:'Playfair Display',serif;font-weight:600;font-size:18px;color:var(--wine-dark);}
+.ruffus-desc{font-family:'EB Garamond',serif;font-style:italic;font-size:13.5px;color:var(--muted);margin-bottom:6px;}
+.ruffus-prices{display:flex;gap:24px;}
+.ruffus-price-item{display:flex;flex-direction:column;}
+.ruffus-price-item .plabel{font-family:'Montserrat',sans-serif;font-weight:500;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);}
+.ruffus-price-item .pval{font-family:'Montserrat',sans-serif;font-weight:700;font-size:19px;color:var(--wine);}
+.grid2{display:flex;gap:16px;flex-wrap:wrap;}
+.grid2 .group{flex:1;min-width:240px;}
 
-/* ---------- Back to top ---------- */
+footer{text-align:center;padding:34px 18px 10px;}
+.footer-rule{width:30px;height:1px;background:var(--gold);margin:0 auto 12px;opacity:.85;}
+.footer-brand{font-family:'Playfair Display',serif;font-weight:700;font-size:16px;color:var(--wine-dark);}
+.footer-sub{font-family:'Montserrat',sans-serif;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-top:4px;}
+
 .totop{
-  position:fixed;right:18px;bottom:18px;z-index:40;
-  width:44px;height:44px;border-radius:50%;
-  background:var(--wine-dark);color:var(--paper-raised);
-  border:none;box-shadow:var(--shadow);
-  display:flex;align-items:center;justify-content:center;
-  opacity:0;pointer-events:none;
-  transform:translateY(8px);
-  transition:opacity .25s ease, transform .25s ease;
-  cursor:pointer;
+  position:fixed;right:16px;bottom:16px;width:42px;height:42px;border-radius:999px;
+  background:var(--wine);color:var(--on-wine);border:none;box-shadow:var(--shadow);
+  display:flex;align-items:center;justify-content:center;font-size:16px;cursor:pointer;
+  opacity:0;pointer-events:none;transition:opacity .2s;z-index:30;
 }
-.totop.show{opacity:1;pointer-events:auto;transform:none;}
-@media (prefers-reduced-motion: reduce){.totop{transition:none;}}
+.totop.show{opacity:1;pointer-events:auto;}
 </style>
 </head>
 <body>
 
-<div class="hero">
-  <div class="hero-ornament">◆</div>
+<header class="hero">
+  <div class="hero-orn">◆</div>
   <div class="hero-kicker">Restaurant</div>
   <h1 class="hero-title">Le Corto Malté</h1>
   <div class="hero-place">Tournai</div>
   <div class="hero-rule"></div>
-  <div class="hero-subtitle">Carte des Vins &amp; Boissons</div>
-</div>
+  <div class="hero-sub">Carte des Vins &amp; Boissons</div>
+  <a href="#braderie" class="hero-jump">🎉 Menu Spécial Braderie — 11 → 14 Sept.</a>
+</header>
 
 <div class="controlbar">
-  <div class="search-row">
-    <div class="search-box">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-      <input type="text" id="search" placeholder="Rechercher un vin, un spiritueux…" autocomplete="off" aria-label="Rechercher dans la carte">
-      <button class="search-clear" id="searchClear" aria-label="Effacer la recherche">×</button>
-    </div>
+  <div class="searchbox">
+    <span class="search-ic">⌕</span>
+    <input id="search" type="search" placeholder="Rechercher un vin, un spiritueux…" autocomplete="off"/>
   </div>
-  <nav class="nav-scroll" id="navScroll" aria-label="Catégories">
-<a href="#aperitifs" class="chip" data-target="aperitifs">Apéritifs</a>
-<a href="#verre" class="chip" data-target="verre">Au Verre</a>
-<a href="#bulles" class="chip" data-target="bulles">Bulles</a>
-<a href="#roses" class="chip" data-target="roses">Rosés</a>
-<a href="#blancs" class="chip" data-target="blancs">Blancs</a>
-<a href="#rouges" class="chip" data-target="rouges">Rouges</a>
-<a href="#bieres" class="chip" data-target="bieres">Bières</a>
-<a href="#softs" class="chip" data-target="softs">Softs</a>
+  <nav class="nav-scroll" id="navScroll">
+    <a href="#braderie" class="chip chip-braderie" data-nav="braderie">🎉 Braderie</a>
+    <a href="#aperitifs" class="chip" data-nav="aperitifs">Apéritifs</a>
+    <a href="#verre" class="chip" data-nav="verre">Au Verre</a>
+    <a href="#bulles" class="chip" data-nav="bulles">Bulles</a>
+    <a href="#roses" class="chip" data-nav="roses">Rosés</a>
+    <a href="#blancs" class="chip" data-nav="blancs">Blancs</a>
+    <a href="#rouges" class="chip" data-nav="rouges">Rouges</a>
+    <a href="#bieres" class="chip" data-nav="bieres">Bières</a>
+    <a href="#softs" class="chip" data-nav="softs">Softs</a>
+    <button class="theme-toggle" id="themeToggle" title="Changer le thème">☾</button>
   </nav>
 </div>
 
-<main id="main">
-
-<section class="menu-section" id="aperitifs" data-section-title="Apéritifs &amp; Spiritueux">
-  <div class="section-head">
-    <span class="section-kicker">I</span>
-    <h2 class="section-title">Apéritifs &amp; Spiritueux</h2>
-  </div>
-  <div class="section-body">
-    
-  <div class="group">
-    <div class="tag"><span>Apéritifs</span></div>
-    
-  <div class="row" data-q="amer labiau vin blanc">
-    <div class="row-txt">
-      <span class="row-name">Amer Labiau vin blanc</span>
-      
-    </div>
-    <span class="row-price">7,00&nbsp;€</span>
-  </div>
-
-  <div class="row" data-q="vermouth bonbon rouge ou blanc">
-    <div class="row-txt">
-      <span class="row-name">Vermouth Bonbon Rouge ou Blanc</span>
-      
-    </div>
-    <span class="row-price">9,00&nbsp;€</span>
-  </div>
-
-  <div class="row" data-q="pastis jacoulot">
-    <div class="row-txt">
-      <span class="row-name">Pastis Jacoulot</span>
-      
-    </div>
-    <span class="row-price">6,00&nbsp;€</span>
-  </div>
-
-  <div class="row" data-q="pastis creissauds">
-    <div class="row-txt">
-      <span class="row-name">Pastis Creissauds</span>
-      
-    </div>
-    <span class="row-price">10,00&nbsp;€</span>
-  </div>
-
-  <div class="row" data-q="americano">
-    <div class="row-txt">
-      <span class="row-name">Americano</span>
-      
-    </div>
-    <span class="row-price">10,00&nbsp;€</span>
-  </div>
-  </div>
-
-  <div class="group">
-    <div class="tag"><span>Spritz</span></div>
-    
-  <div class="row" data-q="aperol">
-    <div class="row-txt">
-      <span class="row-name">Apérol</span>
-      
-    </div>
-    <span class="row-price">9,00&nbsp;€</span>
-  </div>
-
-  <div class="row" data-q="hugo, lemon &amp; dandy dandy : violette">
-    <div class="row-txt">
-      <span class="row-name">Hugo, Lemon &amp; Dandy</span>
-      <span class="row-note">Dandy : Violette</span>
-    </div>
-    <span class="row-price">10,00&nbsp;€</span>
-  </div>
-  </div>
-
-  <div class="group">
-    <div class="tag"><span>Gins Tonics</span></div>
-    
-  <div class="row" data-q="monkey 47">
-    <div class="row-txt">
-      <span class="row-name">Monkey 47</span>
-      
-    </div>
-    <span class="row-price">14,00&nbsp;€</span>
-  </div>
-
-  <div class="row" data-q="hendrick's">
-    <div class="row-txt">
-      <span class="row-name">Hendrick's</span>
-      
-    </div>
-    <span class="row-price">12,00&nbsp;€</span>
-  </div>
-
-  <div class="row" data-q="tanqueray">
-    <div class="row-txt">
-      <span class="row-name">Tanqueray</span>
-      
-    </div>
-    <span class="row-price">12,00&nbsp;€</span>
-  </div>
-
-  <div class="row" data-q="gin 1836 organic">
-    <div class="row-txt">
-      <span class="row-name">Gin 1836 Organic</span>
-      
-    </div>
-    <span class="row-price">12,00&nbsp;€</span>
-  </div>
-
-  <div class="row" data-q="panda organic">
-    <div class="row-txt">
-      <span class="row-name">Panda Organic</span>
-      
-    </div>
-    <span class="row-price">12,00&nbsp;€</span>
-  </div>
-
-  <div class="row" data-q="19 aout - gervin">
-    <div class="row-txt">
-      <span class="row-name">19 Août - Gervin</span>
-      
-    </div>
-    <span class="row-price">12,00&nbsp;€</span>
-  </div>
-
-  <div class="row" data-q="caviar bleu">
-    <div class="row-txt">
-      <span class="row-name">Caviar Bleu</span>
-      
-    </div>
-    <span class="row-price">12,00&nbsp;€</span>
-  </div>
-
-  <div class="row" data-q="juillet gin main de bouddha">
-    <div class="row-txt">
-      <span class="row-name">Juillet Gin Main de Bouddha</span>
-      
-    </div>
-    <span class="row-price">12,00&nbsp;€</span>
-  </div>
-
-  <div class="row" data-q="birdie">
-    <div class="row-txt">
-      <span class="row-name">Birdie</span>
-      
-    </div>
-    <span class="row-price">12,00&nbsp;€</span>
-  </div>
-  </div>
-
-  <div class="group">
-    <div class="tag"><span>Rhums</span><span class="tag-unit">5CL</span></div>
-    
-  <div class="row" data-q="santa terreza">
-    <div class="row-txt">
-      <span class="row-name">Santa Terreza</span>
-      
-    </div>
-    <span class="row-price">12,00&nbsp;€</span>
-  </div>
-
-  <div class="row" data-q="diplomatico">
-    <div class="row-txt">
-      <span class="row-name">Diplomatico</span>
-      
-    </div>
-    <span class="row-price">12,00&nbsp;€</span>
-  </div>
-
-  <div class="row" data-q="bumbu">
-    <div class="row-txt">
-      <span class="row-name">Bumbu</span>
-      
-    </div>
-    <span class="row-price">12,00&nbsp;€</span>
-  </div>
-
-  <div class="row" data-q="don papa">
-    <div class="row-txt">
-      <span class="row-name">Don Papa</span>
-      
-    </div>
-    <span class="row-price">12,00&nbsp;€</span>
-  </div>
-
-  <div class="row" data-q="boucan d'enfer - ferroni">
-    <div class="row-txt">
-      <span class="row-name">Boucan d'Enfer - Ferroni</span>
-      
-    </div>
-    <span class="row-price">10,00&nbsp;€</span>
-  </div>
-  </div>
-
-  <div class="group">
-    <div class="tag"><span>Whiskys</span></div>
-    
-  <div class="row" data-q="welches - sauternes finish">
-    <div class="row-txt">
-      <span class="row-name">Welches - Sauternes finish</span>
-      
-    </div>
-    <span class="row-price">10,00&nbsp;€</span>
-  </div>
-
-  <div class="row" data-q="welches fume">
-    <div class="row-txt">
-      <span class="row-name">Welches Fumé</span>
-      
-    </div>
-    <span class="row-price">10,00&nbsp;€</span>
-  </div>
-
-  <div class="row" data-q="jacoulot - 3 ans">
-    <div class="row-txt">
-      <span class="row-name">Jacoulot - 3 ans</span>
-      
-    </div>
-    <span class="row-price">11,00&nbsp;€</span>
-  </div>
-
-  <div class="row" data-q="old pulteney - 12 ans">
-    <div class="row-txt">
-      <span class="row-name">Old Pulteney - 12 ans</span>
-      
-    </div>
-    <span class="row-price">11,00&nbsp;€</span>
-  </div>
-
-  <div class="row" data-q="laphroaig - quarter cask">
-    <div class="row-txt">
-      <span class="row-name">Laphroaig - Quarter Cask</span>
-      
-    </div>
-    <span class="row-price">14,00&nbsp;€</span>
-  </div>
-  </div>
-  </div>
-</section>
-
-<section class="menu-section" id="verre" data-section-title="Sélection au Verre">
-  <div class="section-head">
-    <span class="section-kicker">II</span>
-    <h2 class="section-title">Sélection au Verre</h2>
-  </div>
-  <div class="section-body">
-    
-  <div class="group">
-    <div class="tag"><span>Au verre</span></div>
-    
-  <div class="wine" data-q="2025 chardonnay dom. de la provenquiere igp pays d'oc chardonnay genereux et rond, poire, agrumes, sincere.">
-    <div class="wine-head">
-      <span class="wine-name">2025 Chardonnay</span>
-      <span class="wine-price">6&nbsp;€<span class="price-unit">verre</span></span>
-    </div>
-    <div class="wine-meta">Dom. de la Provenquière · IGP Pays d'Oc</div>
-    <div class="wine-desc"><span class="cepage">Chardonnay</span> — Généreux et rond, poire, agrumes, sincère.</div>
-  </div>
-
-  <div class="wine" data-q="2025 petit clocher sauvignon dom. du petit clocher vin de france sauvignon blanc agrumes, bourgeon de cassis, fraicheur herbacee.">
-    <div class="wine-head">
-      <span class="wine-name">2025 Petit Clocher Sauvignon</span>
-      <span class="wine-price">7&nbsp;€<span class="price-unit">verre</span></span>
-    </div>
-    <div class="wine-meta">Dom. du Petit Clocher · Vin de France</div>
-    <div class="wine-desc"><span class="cepage">Sauvignon Blanc</span> — Agrumes, bourgeon de cassis, fraîcheur herbacée.</div>
-  </div>
-
-  <div class="wine" data-q="2025 xtra gris dom. de la provenquiere rose languedoc grenache gris gris pale, fraise fraiche, leger et digeste.">
-    <div class="wine-head">
-      <span class="wine-name">2025 Xtra Gris</span>
-      <span class="wine-price">6&nbsp;€<span class="price-unit">verre</span></span>
-    </div>
-    <div class="wine-meta">Dom. de la Provenquière · Rosé Languedoc</div>
-    <div class="wine-desc"><span class="cepage">Grenache Gris</span> — Gris pâle, fraise fraîche, léger et digeste.</div>
-  </div>
-
-  <div class="wine" data-q="2025 cuvee 130 dom. cailhol gautran igp cotes de brian carignan fraise des bois, epices, bouche souple et directe.">
-    <div class="wine-head">
-      <span class="wine-name">2025 Cuvée 130</span>
-      <span class="wine-price">7&nbsp;€<span class="price-unit">verre</span></span>
-    </div>
-    <div class="wine-meta">Dom. Cailhol Gautran · IGP Côtes de Brian</div>
-    <div class="wine-desc"><span class="cepage">Carignan</span> — Fraise des bois, épices, bouche souple et directe.</div>
-  </div>
-
-  <div class="wine" data-q="2024 nero d'avola feudo arancio sicilia doc nero d'avola cerise noire, chocolat, tannin doux.">
-    <div class="wine-head">
-      <span class="wine-name">2024 Nero d'Avola</span>
-      <span class="wine-price">6&nbsp;€<span class="price-unit">verre</span></span>
-    </div>
-    <div class="wine-meta">Feudo Arancio · Sicilia DOC</div>
-    <div class="wine-desc"><span class="cepage">Nero d'Avola</span> — Cerise noire, chocolat, tannin doux.</div>
-  </div>
-  </div>
-  </div>
-</section>
-
-<section class="menu-section" id="bulles" data-section-title="Bulles &amp; Champagnes">
-  <div class="section-head">
-    <span class="section-kicker">III</span>
-    <h2 class="section-title">Bulles &amp; Champagnes</h2>
-  </div>
-  <div class="section-body">
-    
-  <div class="group">
-    <div class="tag"><span>Bulles &amp; Champagnes</span></div>
-    
-  <div class="wine" data-q="cuvee m lys brut dom. mercier vin mousseux brut chardonnay, pinot noir, pinot meunier soyeux et rond, aux notes d'agrumes, de peche de vigne et de coing.">
-    <div class="wine-head">
-      <span class="wine-name">Cuvée M Lys Brut</span>
-      <span class="wine-price">35&nbsp;€</span>
-    </div>
-    <div class="wine-meta">Dom. Mercier · Vin Mousseux Brut</div>
-    <div class="wine-desc"><span class="cepage">Chardonnay, Pinot Noir, Pinot Meunier</span> — Soyeux et rond, aux notes d'agrumes, de pêche de vigne et de coing.</div>
-  </div>
-
-  <div class="wine" data-q="les vallons confluence champagne chardonnay blanc de blancs, maison d'avize, tension minerale, creme, noisette.">
-    <div class="wine-head">
-      <span class="wine-name">Les Vallons Confluence</span>
-      <span class="wine-price">79&nbsp;€</span>
-    </div>
-    <div class="wine-meta">Champagne</div>
-    <div class="wine-desc"><span class="cepage">Chardonnay</span> — Blanc de blancs, Maison d'Avize, tension minérale, crème, noisette.</div>
-  </div>
-
-  <div class="wine" data-q="brut nature — zero dosage champagne drappier champagne pinot noir zero dosage cote des bar, vineux, cerise, epices, persistant.">
-    <div class="wine-head">
-      <span class="wine-name">Brut Nature — Zéro Dosage</span>
-      <span class="wine-price">94&nbsp;€</span>
-    </div>
-    <div class="wine-meta">Champagne Drappier · Champagne</div>
-    <div class="wine-desc"><span class="cepage">Pinot Noir</span> — Zéro dosage Côte des Bar, vineux, cerise, épices, persistant.</div>
-  </div>
-
-  <div class="wine" data-q="3a grand cru champagne de sousa champagne chardonnay, pinot noir grand cru avize / cramant / oger, mineralite racee, profondeur.">
-    <div class="wine-head">
-      <span class="wine-name">3A Grand Cru</span>
-      <span class="wine-price">125&nbsp;€</span>
-    </div>
-    <div class="wine-meta">Champagne De Sousa · Champagne</div>
-    <div class="wine-desc"><span class="cepage">Chardonnay, Pinot Noir</span> — Grand Cru Avize / Cramant / Oger, minéralité racée, profondeur.</div>
-  </div>
-
-  <div class="wine" data-q="tradition — extra brut champagne de sousa champagne chardonnay, pinot noir, pinot meunier mimosa, agrumes et fruits murs, pointe de miel, fraicheur vive et gourmande.">
-    <div class="wine-head">
-      <span class="wine-name">Tradition — Extra Brut</span>
-      <span class="wine-price">99&nbsp;€</span>
-    </div>
-    <div class="wine-meta">Champagne De Sousa · Champagne</div>
-    <div class="wine-desc"><span class="cepage">Chardonnay, Pinot Noir, Pinot Meunier</span> — Mimosa, agrumes et fruits mûrs, pointe de miel, fraîcheur vive et gourmande.</div>
-  </div>
-  </div>
-  </div>
-</section>
-
-<section class="menu-section" id="roses" data-section-title="Vins Rosés">
-  <div class="section-head">
-    <span class="section-kicker">IV</span>
-    <h2 class="section-title">Vins Rosés</h2>
-  </div>
-  <div class="section-body">
-    
-  <div class="group">
-    <div class="tag"><span>Sud-Ouest &amp; Bordeaux</span></div>
-    
-  <div class="wine" data-q="2025 les vaudevilles acte i domaine de la comedie bordeaux rose discret de bonbons acidules, senteur de roses et de fruits rouges, bouche ample et elegante.">
-    <div class="wine-head">
-      <span class="wine-name">2025 Les Vaudevilles Acte I</span>
-      <span class="wine-price">29&nbsp;€</span>
-    </div>
-    <div class="wine-meta">Domaine de la Comédie · Bordeaux Rosé</div>
-    <div class="wine-desc">Discret de bonbons acidulés, senteur de roses et de fruits rouges, bouche ample et élégante.</div>
-  </div>
-  </div>
-
-  <div class="group">
-    <div class="tag"><span>Rhône Sud</span></div>
-    
-  <div class="wine" data-q="2025 le caillou rose clos du caillou cotes du rhone grenache, cinsault fruits rouges, fleur d'oranger, bouche ronde.">
-    <div class="wine-head">
-      <span class="wine-name">2025 Le Caillou Rosé</span>
-      <span class="wine-price">39&nbsp;€</span>
-    </div>
-    <div class="wine-meta">Clos du Caillou · Côtes du Rhône</div>
-    <div class="wine-desc"><span class="cepage">Grenache, Cinsault</span> — Fruits rouges, fleur d'oranger, bouche ronde.</div>
-  </div>
-  </div>
-
-  <div class="group">
-    <div class="tag"><span>Languedoc</span></div>
-    
-  <div class="wine" data-q="2025 xtra gris dom. de la provenquiere rose languedoc grenache gris gris pale, fraise fraiche, leger et digeste.">
-    <div class="wine-head">
-      <span class="wine-name">2025 Xtra Gris</span>
-      <span class="wine-price">25&nbsp;€</span>
-    </div>
-    <div class="wine-meta">Dom. de la Provenquière · Rosé Languedoc</div>
-    <div class="wine-desc"><span class="cepage">Grenache Gris</span> — Gris pâle, fraise fraîche, léger et digeste.</div>
-  </div>
-  </div>
-
-  <div class="group">
-    <div class="tag"><span>Provence</span></div>
-    
-  <div class="wine" data-q="2025 chateau real d'or cotes de provence grenache, cinsault, syrah rose provencal pale, framboise, pamplemousse rose.">
-    <div class="wine-head">
-      <span class="wine-name">2025 Château Réal d'Or</span>
-      <span class="wine-price">35&nbsp;€</span>
-    </div>
-    <div class="wine-meta">Côtes de Provence</div>
-    <div class="wine-desc"><span class="cepage">Grenache, Cinsault, Syrah</span> — Rosé provençal pâle, framboise, pamplemousse rose.</div>
-  </div>
-  </div>
-  </div>
-</section>
-
-<section class="menu-section" id="blancs" data-section-title="Vins Blancs">
-  <div class="section-head">
-    <span class="section-kicker">V</span>
-    <h2 class="section-title">Vins Blancs</h2>
-  </div>
-  <div class="section-body">
-    
-  <div class="group">
-    <div class="tag"><span>Loire</span></div>
-    
-  <div class="wine" data-q="2025 petit clocher sauvignon dom. du petit clocher vin de france sauvignon blanc agrumes, bourgeon de cassis, fraicheur herbacee.">
-    <div class="wine-head">
-      <span class="wine-name">2025 Petit Clocher Sauvignon</span>
-      <span class="wine-price">26&nbsp;€</span>
-    </div>
-    <div class="wine-meta">Dom. du Petit Clocher · Vin de France</div>
-    <div class="wine-desc"><span class="cepage">Sauvignon Blanc</span> — Agrumes, bourgeon de cassis, fraîcheur herbacée.</div>
-  </div>
-
-  <div class="wine" data-q="2024 menetou villages dom. pelle menetou-salon sauvignon blanc mineral sur silex, floral, bouche tendue et saline.">
-    <div class="wine-head">
-      <span class="wine-name">2024 Menetou Villages</span>
-      <span class="wine-price">44&nbsp;€</span>
-    </div>
-    <div class="wine-meta">Dom. Pellé · Menetou-Salon</div>
-    <div class="wine-desc"><span class="cepage">Sauvignon Blanc</span> — Minéral sur silex, floral, bouche tendue et saline.</div>
-  </div>
-
-  <div class="wine" data-q="2023 les salles martin dom. antoine sanzay saumur blanc chenin blanc tuffeau, pomme verte, mineralite crayeuse et longue.">
-    <div class="wine-head">
-      <span class="wine-name">2023 Les Salles Martin</span>
-      <span class="wine-price">74&nbsp;€</span>
-    </div>
-    <div class="wine-meta">Dom. Antoine Sanzay · Saumur Blanc</div>
-    <div class="wine-desc"><span class="cepage">Chenin Blanc</span> — Tuffeau, pomme verte, minéralité crayeuse et longue.</div>
-  </div>
-  </div>
-
-  <div class="group">
-    <div class="tag"><span>Bourgogne</span></div>
-    
-  <div class="wine" data-q="2025 petit chablis dom. christophe &amp; fils bourgogne chardonnay vif et iode sur kimmeridgien, pomme verte, citron.">
-    <div class="wine-head">
-      <span class="wine-name">2025 Petit Chablis</span>
-      <span class="wine-price">42&nbsp;€</span>
-    </div>
-    <div class="wine-meta">Dom. Christophe &amp; Fils · Bourgogne</div>
-    <div class="wine-desc"><span class="cepage">Chardonnay</span> — Vif et iodé sur Kimméridgien, pomme verte, citron.</div>
-  </div>
-
-  <div class="wine" data-q="2023 bourgogne aligote dom. sylvain pataille bourgogne aligote pomme fraiche, citron confit, acidite precise.">
-    <div class="wine-head">
-      <span class="wine-name">2023 Bourgogne Aligoté</span>
-      <span class="wine-price">55&nbsp;€</span>
-    </div>
-    <div class="wine-meta">Dom. Sylvain Pataille · Bourgogne</div>
-    <div class="wine-desc"><span class="cepage">Aligoté</span> — Pomme fraîche, citron confit, acidité précise.</div>
-  </div>
-
-  <div class="wine" data-q="2020 bois de la croix dom. thibert &amp; fils macon-fuisse chardonnay peche blanche, noisette, miel, finale ronde.">
-    <div class="wine-head">
-      <span class="wine-name">2020 Bois de la Croix</span>
-      <span class="wine-price">55&nbsp;€</span>
-    </div>
-    <div class="wine-meta">Dom. Thibert &amp; Fils · Mâcon-Fuissé</div>
-    <div class="wine-desc"><span class="cepage">Chardonnay</span> — Pêche blanche, noisette, miel, finale ronde.</div>
-  </div>
-
-  <div class="wine" data-q="2023 les perrieres dom. d'ardhuy hautes-cotes de beaune chardonnay floral et fin, pomme, aubepine, souple et fraiche.">
-    <div class="wine-head">
-      <span class="wine-name">2023 Les Perrières</span>
-      <span class="wine-price">63&nbsp;€</span>
-    </div>
-    <div class="wine-meta">Dom. d'Ardhuy · Hautes-Côtes de Beaune</div>
-    <div class="wine-desc"><span class="cepage">Chardonnay</span> — Floral et fin, pomme, aubépine, souple et fraîche.</div>
-  </div>
-
-  <div class="wine" data-q="2023 ladoix villages dom. d'ardhuy bourgogne chardonnay noisette, fruits blancs, texture soyeuse et elegante.">
-    <div class="wine-head">
-      <span class="wine-name">2023 Ladoix Villages</span>
-      <span class="wine-price">82&nbsp;€</span>
-    </div>
-    <div class="wine-meta">Dom. d'Ardhuy · Bourgogne</div>
-    <div class="wine-desc"><span class="cepage">Chardonnay</span> — Noisette, fruits blancs, texture soyeuse et élégante.</div>
-  </div>
-
-  <div class="wine" data-q="2018 petit clos des theurons dom. d'ardhuy beaune 1er cru chardonnay belle maturite, beurre frais, agrumes confits, finale minerale.">
-    <div class="wine-head">
-      <span class="wine-name">2018 Petit Clos des Theurons</span>
-      <span class="wine-price">100&nbsp;€</span>
-    </div>
-    <div class="wine-meta">Dom. d'Ardhuy · Beaune 1er Cru</div>
-    <div class="wine-desc"><span class="cepage">Chardonnay</span> — Belle maturité, beurre frais, agrumes confits, finale minérale.</div>
-  </div>
-
-  <div class="wine" data-q="2020 sous le puits dom. d'ardhuy puligny-montrachet 1er cru chardonnay elegance rare, floral, cailloux chauds, tension et longueur.">
-    <div class="wine-head">
-      <span class="wine-name">2020 Sous le Puits</span>
-      <span class="wine-price">174&nbsp;€</span>
-    </div>
-    <div class="wine-meta">Dom. d'Ardhuy · Puligny-Montrachet 1er Cru</div>
-    <div class="wine-desc"><span class="cepage">Chardonnay</span> — Élégance rare, floral, cailloux chauds, tension et longueur.</div>
-  </div>
-  </div>
-
-  <div class="group">
-    <div class="tag"><span>Languedoc</span></div>
-    
-  <div class="wine" data-q="2025 chardonnay dom. de la provenquiere igp pays d'oc chardonnay genereux et rond, poire, agrumes, sincere.">
-    <div class="wine-head">
-      <span class="wine-name">2025 Chardonnay</span>
-      <span class="wine-price">25&nbsp;€</span>
-    </div>
-    <div class="wine-meta">Dom. de la Provenquière · IGP Pays d'Oc</div>
-    <div class="wine-desc"><span class="cepage">Chardonnay</span> — Généreux et rond, poire, agrumes, sincère.</div>
-  </div>
-
-  <div class="wine" data-q="2024 silice domaine les eminades igp coteaux de fontcaude sauvignon blanc fraicheur minerale, agrumes, fruits exotiques, pierre a fusil.">
-    <div class="wine-head">
-      <span class="wine-name">2024 Silice</span>
-      <span class="wine-price">56&nbsp;€</span>
-    </div>
-    <div class="wine-meta">Domaine Les Eminades · IGP Coteaux de Fontcaude</div>
-    <div class="wine-desc"><span class="cepage">Sauvignon Blanc</span> — Fraîcheur minérale, agrumes, fruits exotiques, pierre à fusil.</div>
-  </div>
-  </div>
-
-  <div class="group">
-    <div class="tag"><span>Sud-Ouest &amp; Bordeaux</span></div>
-    
-  <div class="wine" data-q="2023 les terres blanches dom. chiroulet cotes de gascogne colombard, ugni blanc citron, fleur blanche, de plaisir immediat.">
-    <div class="wine-head">
-      <span class="wine-name">2023 Les Terres Blanches</span>
-      <span class="wine-price">25&nbsp;€</span>
-    </div>
-    <div class="wine-meta">Dom. Chiroulet · Côtes de Gascogne</div>
-    <div class="wine-desc"><span class="cepage">Colombard, Ugni Blanc</span> — Citron, fleur blanche, de plaisir immédiat.</div>
-  </div>
-
-  <div class="wine" data-q="2024 soleil d'automne dom. chiroulet cotes de gascogne (moelleux) sauvignon blanc, gros manseng ananas, pamplemousse, aromatique et rond.">
-    <div class="wine-head">
-      <span class="wine-name">2024 Soleil d'Automne</span>
-      <span class="wine-price">27&nbsp;€</span>
-    </div>
-    <div class="wine-meta">Dom. Chiroulet · Côtes de Gascogne (moelleux)</div>
-    <div class="wine-desc"><span class="cepage">Sauvignon Blanc, Gros Manseng</span> — Ananas, pamplemousse, aromatique et rond.</div>
-  </div>
-
-  <div class="wine" data-q="2025 la jarousse domaine de la comedie igp atlantique chardonnay notes briochees, cremeuses, de fruits secs (noisettes, amandes grillees) et de fleurs blanches.">
-    <div class="wine-head">
-      <span class="wine-name">2025 La Jarousse</span>
-      <span class="wine-price">55&nbsp;€</span>
-    </div>
-    <div class="wine-meta">Domaine de la Comédie · IGP Atlantique</div>
-    <div class="wine-desc"><span class="cepage">Chardonnay</span> — Notes briochées, crémeuses, de fruits secs (noisettes, amandes grillées) et de fleurs blanches.</div>
-  </div>
-
-  <div class="wine" data-q="2023 part davant camin larredya jurancon sec gros manseng, petit courbu abricot sec, agrumes, tension granitique.">
-    <div class="wine-head">
-      <span class="wine-name">2023 Part Davant</span>
-      <span class="wine-price">51&nbsp;€</span>
-    </div>
-    <div class="wine-meta">Camin Larredya · Jurançon Sec</div>
-    <div class="wine-desc"><span class="cepage">Gros Manseng, Petit Courbu</span> — Abricot sec, agrumes, tension granitique.</div>
-  </div>
-  </div>
-
-  <div class="group">
-    <div class="tag"><span>Rhône Sud</span></div>
-    
-  <div class="wine" data-q="2025 le caillou blanc le clos du caillou cotes du rhone clairette, grenache blanc, roussanne, viognier fleurs blanches, poire, bouche souple et fraiche.">
-    <div class="wine-head">
-      <span class="wine-name">2025 Le Caillou Blanc</span>
-      <span class="wine-price">39&nbsp;€</span>
-    </div>
-    <div class="wine-meta">Le Clos du Caillou · Côtes du Rhône</div>
-    <div class="wine-desc"><span class="cepage">Clairette, Grenache Blanc, Roussanne, Viognier</span> — Fleurs blanches, poire, bouche souple et fraîche.</div>
-  </div>
-  </div>
-
-  <div class="group">
-    <div class="tag"><span>Rhône Nord</span></div>
-    
-  <div class="wine" data-q="2024 crozes-hermitage dom. g&amp;j bott crozes-hermitage marsanne, roussanne charnu, peche blanche, abricot, finale minerale.">
-    <div class="wine-head">
-      <span class="wine-name">2024 Crozes-Hermitage</span>
-      <span class="wine-price">61&nbsp;€</span>
-    </div>
-    <div class="wine-meta">Dom. G&amp;J Bott · Crozes-Hermitage</div>
-    <div class="wine-desc"><span class="cepage">Marsanne, Roussanne</span> — Charnu, pêche blanche, abricot, finale minérale.</div>
-  </div>
-
-  <div class="wine" data-q="2022 condrieu dom. g&amp;j bott condrieu viognier charnu, peche blanche, abricot, minerale.">
-    <div class="wine-head">
-      <span class="wine-name">2022 Condrieu</span>
-      <span class="wine-price">94&nbsp;€</span>
-    </div>
-    <div class="wine-meta">Dom. G&amp;J Bott · Condrieu</div>
-    <div class="wine-desc"><span class="cepage">Viognier</span> — Charnu, pêche blanche, abricot, minérale.</div>
-  </div>
-  </div>
-
-  <div class="group">
-    <div class="tag tag-foreign"><span>Italie</span></div>
-    
-  <div class="wine" data-q="2025 grillo feudo arancio sicilia doc grillo fleur blanche, peche, amande fraiche, salinite.">
-    <div class="wine-head">
-      <span class="wine-name">2025 Grillo</span>
-      <span class="wine-price">25&nbsp;€</span>
-    </div>
-    <div class="wine-meta">Feudo Arancio · Sicilia DOC</div>
-    <div class="wine-desc"><span class="cepage">Grillo</span> — Fleur blanche, pêche, amande fraîche, salinité.</div>
-  </div>
-  </div>
-  </div>
-</section>
-
-<section class="menu-section" id="rouges" data-section-title="Vins Rouges">
-  <div class="section-head">
-    <span class="section-kicker">VI</span>
-    <h2 class="section-title">Vins Rouges</h2>
-  </div>
-  <div class="section-body">
-    
-  <div class="group">
-    <div class="tag"><span>Loire</span></div>
-    
-  <div class="wine" data-q="2024 la paterne dom. antoine sanzay saumur-champigny cabernet franc groseille, poivron doux, structure fine et fraiche.">
-    <div class="wine-head">
-      <span class="wine-name">2024 La Paterne</span>
-      <span class="wine-price">52&nbsp;€</span>
-    </div>
-    <div class="wine-meta">Dom. Antoine Sanzay · Saumur-Champigny</div>
-    <div class="wine-desc"><span class="cepage">Cabernet Franc</span> — Groseille, poivron doux, structure fine et fraîche.</div>
-  </div>
-
-  <div class="wine" data-q="2023 menetou morogues dom. pelle menetou-salon pinot noir cerise, fin et epice sur silex, structure legere.">
-    <div class="wine-head">
-      <span class="wine-name">2023 Menetou Morogues</span>
-      <span class="wine-price">45&nbsp;€</span>
-    </div>
-    <div class="wine-meta">Dom. Pellé · Menetou-Salon</div>
-    <div class="wine-desc"><span class="cepage">Pinot Noir</span> — Cerise, fin et épicé sur silex, structure légère.</div>
-  </div>
-
-  <div class="wine" data-q="2023 les poyeux dom. antoine sanzay saumur-champigny cabernet franc graphite, framboise, bouche soyeuse et precise.">
-    <div class="wine-head">
-      <span class="wine-name">2023 Les Poyeux</span>
-      <span class="wine-price">87&nbsp;€</span>
-    </div>
-    <div class="wine-meta">Dom. Antoine Sanzay · Saumur-Champigny</div>
-    <div class="wine-desc"><span class="cepage">Cabernet Franc</span> — Graphite, framboise, bouche soyeuse et précise.</div>
-  </div>
-  </div>
-
-  <div class="group">
-    <div class="tag"><span>Bourgogne</span></div>
-    
-  <div class="wine" data-q="2023 bourgogne rouge dom. sylvain pataille bourgogne pinot noir cerise, souple et fruite.">
-    <div class="wine-head">
-      <span class="wine-name">2023 Bourgogne Rouge</span>
-      <span class="wine-price">59&nbsp;€</span>
-    </div>
-    <div class="wine-meta">Dom. Sylvain Pataille · Bourgogne</div>
-    <div class="wine-desc"><span class="cepage">Pinot Noir</span> — Cerise, souple et fruité.</div>
-  </div>
-
-  <div class="wine" data-q="2023 en clemengeots dom. sylvain pataille marsannay pinot noir cerise noire, epices, tannin de soie, finale persistante.">
-    <div class="wine-head">
-      <span class="wine-name">2023 En Clemengeots</span>
-      <span class="wine-price">98&nbsp;€</span>
-    </div>
-    <div class="wine-meta">Dom. Sylvain Pataille · Marsannay</div>
-    <div class="wine-desc"><span class="cepage">Pinot Noir</span> — Cerise noire, épices, tannin de soie, finale persistante.</div>
-  </div>
-
-  <div class="wine" data-q="2023 la montagne dom. sylvain pataille marsannay pinot noir lieu-dit charpente, fruits noirs, terres humides, grande garde.">
-    <div class="wine-head">
-      <span class="wine-name">2023 La Montagne</span>
-      <span class="wine-price">98&nbsp;€</span>
-    </div>
-    <div class="wine-meta">Dom. Sylvain Pataille · Marsannay</div>
-    <div class="wine-desc"><span class="cepage">Pinot Noir</span> — Lieu-dit charpenté, fruits noirs, terres humides, grande garde.</div>
-  </div>
-
-  <div class="wine" data-q="2023 savigny-les-beaune dom. d'ardhuy clos des guettes 1er cru pinot noir griotte, epices, tannin fin, bouche soyeuse.">
-    <div class="wine-head">
-      <span class="wine-name">2023 Savigny-lès-Beaune</span>
-      <span class="wine-price">83&nbsp;€</span>
-    </div>
-    <div class="wine-meta">Dom. d'Ardhuy · Clos des Guettes 1er Cru</div>
-    <div class="wine-desc"><span class="cepage">Pinot Noir</span> — Griotte, épices, tannin fin, bouche soyeuse.</div>
-  </div>
-
-  <div class="wine" data-q="2023 gevrey-chambertin dom. d'ardhuy villages pinot noir cassis, epices, tannins fermes, grand terroir de nuits.">
-    <div class="wine-head">
-      <span class="wine-name">2023 Gevrey-Chambertin</span>
-      <span class="wine-price">100&nbsp;€</span>
-    </div>
-    <div class="wine-meta">Dom. d'Ardhuy · Villages</div>
-    <div class="wine-desc"><span class="cepage">Pinot Noir</span> — Cassis, épices, tannins fermes, grand terroir de Nuits.</div>
-  </div>
-
-  <div class="wine" data-q="2023 fleur de pinot dom. sylvain pataille marsannay rose - bourgogne pinot noir cerise, rose sechee, bouche precise et ample.">
-    <div class="wine-head">
-      <span class="wine-name">2023 Fleur de Pinot</span>
-      <span class="wine-price">111&nbsp;€</span>
-    </div>
-    <div class="wine-meta">Dom. Sylvain Pataille · Marsannay Rosé - Bourgogne</div>
-    <div class="wine-desc"><span class="cepage">Pinot Noir</span> — Cerise, rose séchée, bouche précise et ample.</div>
-  </div>
-  </div>
-
-  <div class="group">
-    <div class="tag"><span>Bordeaux</span></div>
-    
-  <div class="wine" data-q="2020 chateau la comedie castillon cotes de bordeaux merlot, cabernet franc, cabernet sauvignon robe rubis profonde, fraise confituree, boise elegant, tanins souples.">
-    <div class="wine-head">
-      <span class="wine-name">2020 Château La Comédie</span>
-      <span class="wine-price">44&nbsp;€</span>
-    </div>
-    <div class="wine-meta">Castillon Côtes de Bordeaux</div>
-    <div class="wine-desc"><span class="cepage">Merlot, Cabernet Franc, Cabernet Sauvignon</span> — Robe rubis profonde, fraise confiturée, boisé élégant, tanins souples.</div>
-  </div>
-
-  <div class="wine" data-q="2025 les comediennes chateau la comedie bordeaux merlot, cabernet franc fruits rouges croquants, gourmand et facile a boire.">
-    <div class="wine-head">
-      <span class="wine-name">2025 Les Comédiennes</span>
-      <span class="wine-price">33&nbsp;€</span>
-    </div>
-    <div class="wine-meta">Château la Comédie · Bordeaux</div>
-    <div class="wine-desc"><span class="cepage">Merlot, Cabernet Franc</span> — Fruits rouges croquants, gourmand et facile à boire.</div>
-  </div>
-
-  <div class="wine" data-q="2020 fleur de scene — cuvee prestige chateau la comedie castillon cotes de bordeaux merlot, cabernet franc, cabernet sauvignon fruits murs, figues seches, epices, bouche ample et charnue, tanins enrobes, vin de garde.">
-    <div class="wine-head">
-      <span class="wine-name">2020 Fleur de Scène — Cuvée Prestige</span>
-      <span class="wine-price">66&nbsp;€</span>
-    </div>
-    <div class="wine-meta">Château la Comédie · Castillon Côtes de Bordeaux</div>
-    <div class="wine-desc"><span class="cepage">Merlot, Cabernet Franc, Cabernet Sauvignon</span> — Fruits mûrs, figues sèches, épices, bouche ample et charnue, tanins enrobés, vin de garde.</div>
-  </div>
-  </div>
-
-  <div class="group">
-    <div class="tag"><span>Beaujolais</span></div>
-    
-  <div class="wine" data-q="2023 cuvee noemie christophe savoye morgon gamay cerise noire, griotte, mineralite granitique, tannin elegant.">
-    <div class="wine-head">
-      <span class="wine-name">2023 Cuvée Noémie</span>
-      <span class="wine-price">37&nbsp;€</span>
-    </div>
-    <div class="wine-meta">Christophe Savoye · Morgon</div>
-    <div class="wine-desc"><span class="cepage">Gamay</span> — Cerise noire, griotte, minéralité granitique, tannin élégant.</div>
-  </div>
-
-  <div class="wine" data-q="2024 le vivier dom. yohan lardy fleurie gamay soyeux et parfume, pivoine, framboise, touche florale.">
-    <div class="wine-head">
-      <span class="wine-name">2024 Le Vivier</span>
-      <span class="wine-price">42&nbsp;€</span>
-    </div>
-    <div class="wine-meta">Dom. Yohan Lardy · Fleurie</div>
-    <div class="wine-desc"><span class="cepage">Gamay</span> — Soyeux et parfumé, pivoine, framboise, touche florale.</div>
-  </div>
-  </div>
-
-  <div class="group">
-    <div class="tag"><span>Rhône Nord</span></div>
-    
-  <div class="wine" data-q="2023 la syrah d'ogier dom. stephane ogier cotes du rhone syrah initiation au nord-rhone, violette, poivre, fruite sincere.">
-    <div class="wine-head">
-      <span class="wine-name">2023 La Syrah d'Ogier</span>
-      <span class="wine-price">44&nbsp;€</span>
-    </div>
-    <div class="wine-meta">Dom. Stéphane Ogier · Côtes du Rhône</div>
-    <div class="wine-desc"><span class="cepage">Syrah</span> — Initiation au Nord-Rhône, violette, poivre, fruité sincère.</div>
-  </div>
-
-  <div class="wine" data-q="2023 saint-joseph dom. g &amp; j bott saint-joseph syrah granitique, olive noire, poivre, viande fumee, tannin cisele.">
-    <div class="wine-head">
-      <span class="wine-name">2023 Saint-Joseph</span>
-      <span class="wine-price">74&nbsp;€</span>
-    </div>
-    <div class="wine-meta">Dom. G &amp; J Bott · Saint-Joseph</div>
-    <div class="wine-desc"><span class="cepage">Syrah</span> — Granitique, olive noire, poivre, viande fumée, tannin ciselé.</div>
-  </div>
-
-  <div class="wine" data-q="2021 cote-rotie mon village dom. stephane ogier cote-rotie syrah, viognier d'un maitre du nord-rhone, violette, cacao, elegant.">
-    <div class="wine-head">
-      <span class="wine-name">2021 Côte-Rôtie Mon Village</span>
-      <span class="wine-price">135&nbsp;€</span>
-    </div>
-    <div class="wine-meta">Dom. Stéphane Ogier · Côte-Rôtie</div>
-    <div class="wine-desc"><span class="cepage">Syrah, Viognier</span> — D'un maître du Nord-Rhône, violette, cacao, élégant.</div>
-  </div>
-  </div>
-
-  <div class="group">
-    <div class="tag"><span>Rhône Sud</span></div>
-    
-  <div class="wine" data-q="2024 les garrigues chateau juvenal ventoux grenache, syrah frais, fruits rouges sauvages, herbes de provence, leger.">
-    <div class="wine-head">
-      <span class="wine-name">2024 Les Garrigues</span>
-      <span class="wine-price">25&nbsp;€</span>
-    </div>
-    <div class="wine-meta">Château Juvenal · Ventoux</div>
-    <div class="wine-desc"><span class="cepage">Grenache, Syrah</span> — Frais, fruits rouges sauvages, herbes de Provence, léger.</div>
-  </div>
-
-  <div class="wine" data-q="la mourvache clos des centenaires cotes du rhone mourvedre, grenache charnu et profond, sur les fruits noirs, la reglisse et une belle structure tannique.">
-    <div class="wine-head">
-      <span class="wine-name">La Mourvache</span>
-      <span class="wine-price">45&nbsp;€</span>
-    </div>
-    <div class="wine-meta">Clos des Centenaires · Côtes du Rhône</div>
-    <div class="wine-desc"><span class="cepage">Mourvèdre, Grenache</span> — Charnu et profond, sur les fruits noirs, la réglisse et une belle structure tannique.</div>
-  </div>
-
-  <div class="wine" data-q="2023 la petite ourse dom. la grande ourse cotes du rhone grenache, syrah sincere, cerise, olive noire, bouche souple et franche.">
-    <div class="wine-head">
-      <span class="wine-name">2023 La Petite Ourse</span>
-      <span class="wine-price">44&nbsp;€</span>
-    </div>
-    <div class="wine-meta">Dom. La Grande Ourse · Côtes du Rhône</div>
-    <div class="wine-desc"><span class="cepage">Grenache, Syrah</span> — Sincère, cerise, olive noire, bouche souple et franche.</div>
-  </div>
-
-  <div class="wine" data-q="2024 le petit bosquets dom. les bosquets vin de france grenache, syrah fruite par le domaine de gigondas, croquant et gourmand.">
-    <div class="wine-head">
-      <span class="wine-name">2024 Le Petit Bosquets</span>
-      <span class="wine-price">31&nbsp;€</span>
-    </div>
-    <div class="wine-meta">Dom. Les Bosquets · Vin de France</div>
-    <div class="wine-desc"><span class="cepage">Grenache, Syrah</span> — Fruité par le domaine de Gigondas, croquant et gourmand.</div>
-  </div>
-
-  <div class="wine" data-q="2025 le caillou clos du caillou cotes du rhone grenache, syrah, mourvedre, cinsault groseille, cassis, cerise, poivre blanc, petale de rose, souple et juteux.">
-    <div class="wine-head">
-      <span class="wine-name">2025 Le Caillou</span>
-      <span class="wine-price">39&nbsp;€</span>
-    </div>
-    <div class="wine-meta">Clos du Caillou · Côtes du Rhône</div>
-    <div class="wine-desc"><span class="cepage">Grenache, Syrah, Mourvèdre, Cinsault</span> — Groseille, cassis, cerise, poivre blanc, pétale de rose, souple et juteux.</div>
-  </div>
-
-  <div class="wine" data-q="2024 bouquet des garrigues le clos du caillou cotes du rhone grenache, syrah, mourvedre, counoise fruits rouges murs, garrigue, bouche ronde.">
-    <div class="wine-head">
-      <span class="wine-name">2024 Bouquet des Garrigues</span>
-      <span class="wine-price">45&nbsp;€</span>
-    </div>
-    <div class="wine-meta">Le Clos du Caillou · Côtes du Rhône</div>
-    <div class="wine-desc"><span class="cepage">Grenache, Syrah, Mourvèdre, Counoise</span> — Fruits rouges mûrs, garrigue, bouche ronde.</div>
-  </div>
-
-  <div class="wine" data-q="2025 vacqueyras dom. d'ourea les vignes du parc grenache fruits noirs, epices, garrigue, charpente meridionale.">
-    <div class="wine-head">
-      <span class="wine-name">2025 Vacqueyras</span>
-      <span class="wine-price">49&nbsp;€</span>
-    </div>
-    <div class="wine-meta">Dom. d'Ouréa · Les Vignes du Parc</div>
-    <div class="wine-desc"><span class="cepage">Grenache</span> — Fruits noirs, épices, garrigue, charpente méridionale.</div>
-  </div>
-
-  <div class="wine" data-q="2023 gigondas dom. les bosquets les hauts lieux grenache, syrah, mourvedre fruits noirs, violette, tannins denses et sapides.">
-    <div class="wine-head">
-      <span class="wine-name">2023 Gigondas</span>
-      <span class="wine-price">76&nbsp;€</span>
-    </div>
-    <div class="wine-meta">Dom. Les Bosquets · Les Hauts Lieux</div>
-    <div class="wine-desc"><span class="cepage">Grenache, Syrah, Mourvèdre</span> — Fruits noirs, violette, tannins denses et sapides.</div>
-  </div>
-
-  <div class="wine" data-q="2023 chateauneuf-du-pape le clos du caillou les safres grenache, syrah, mourvedre sur galets roules, fruits confits, epices, veloutes.">
-    <div class="wine-head">
-      <span class="wine-name">2023 Châteauneuf-du-Pape</span>
-      <span class="wine-price">88&nbsp;€</span>
-    </div>
-    <div class="wine-meta">Le Clos du Caillou · Les Safres</div>
-    <div class="wine-desc"><span class="cepage">Grenache, Syrah, Mourvèdre</span> — Sur galets roulés, fruits confits, épices, veloutés.</div>
-  </div>
-  </div>
-
-  <div class="group">
-    <div class="tag"><span>Languedoc</span></div>
-    
-  <div class="wine" data-q="2025 cuvee 130 dom. cailhol gautran igp cotes de brian carignan fraise des bois, epices, bouche souple et directe.">
-    <div class="wine-head">
-      <span class="wine-name">2025 Cuvée 130</span>
-      <span class="wine-price">25&nbsp;€</span>
-    </div>
-    <div class="wine-meta">Dom. Cailhol Gautran · IGP Côtes de Brian</div>
-    <div class="wine-desc"><span class="cepage">Carignan</span> — Fraise des bois, épices, bouche souple et directe.</div>
-  </div>
-
-  <div class="wine" data-q="2023 premier sceau dom. marion pla saint-chinian syrah, mourvedre, grenache fruits noirs, olive, tannins souples, solaire.">
-    <div class="wine-head">
-      <span class="wine-name">2023 Premier Sceau</span>
-      <span class="wine-price">27&nbsp;€</span>
-    </div>
-    <div class="wine-meta">Dom. Marion Pla · Saint-Chinian</div>
-    <div class="wine-desc"><span class="cepage">Syrah, Mourvèdre, Grenache</span> — Fruits noirs, olive, tannins souples, solaire.</div>
-  </div>
-
-  <div class="wine" data-q="2023 pure c dom. la barthassade vdp d'herault cinsault fruits rouges, epices, bouche directe et sincere.">
-    <div class="wine-head">
-      <span class="wine-name">2023 Pure C</span>
-      <span class="wine-price">42&nbsp;€</span>
-    </div>
-    <div class="wine-meta">Dom. La Barthassade · VdP d'Hérault</div>
-    <div class="wine-desc"><span class="cepage">Cinsault</span> — Fruits rouges, épices, bouche directe et sincère.</div>
-  </div>
-
-  <div class="wine" data-q="2025 hautes pistes pinot noir dom. aubert &amp; mathieu igp pays d'oc pinot noir pinot du midi en finesse, fraise, cerise, legerete surprenante.">
-    <div class="wine-head">
-      <span class="wine-name">2025 Hautes Pistes Pinot Noir</span>
-      <span class="wine-price">36&nbsp;€</span>
-    </div>
-    <div class="wine-meta">Dom. Aubert &amp; Mathieu · IGP Pays d'Oc</div>
-    <div class="wine-desc"><span class="cepage">Pinot Noir</span> — Pinot du Midi en finesse, fraise, cerise, légèreté surprenante.</div>
-  </div>
-
-  <div class="wine" data-q="2023 nimalaya cassagne &amp; vitailles vin de france carignan cassis, poivre, tannin ferme, structure.">
-    <div class="wine-head">
-      <span class="wine-name">2023 Nimalaya</span>
-      <span class="wine-price">85&nbsp;€</span>
-    </div>
-    <div class="wine-meta">Cassagne &amp; Vitailles · Vin de France</div>
-    <div class="wine-desc"><span class="cepage">Carignan</span> — Cassis, poivre, tannin ferme, structuré.</div>
-  </div>
-
-  <div class="wine" data-q="2019 clas mani cassagne &amp; vitailles terrasses du larzac syrah, grenache, carignan schistes, mineral, fruits noirs, garde et precision.">
-    <div class="wine-head">
-      <span class="wine-name">2019 Clas Mani</span>
-      <span class="wine-price">94&nbsp;€</span>
-    </div>
-    <div class="wine-meta">Cassagne &amp; Vitailles · Terrasses du Larzac</div>
-    <div class="wine-desc"><span class="cepage">Syrah, Grenache, Carignan</span> — Schistes, minéral, fruits noirs, garde et précision.</div>
-  </div>
-
-  <div class="wine" data-q="2023 homs cassagne &amp; vitailles vin de france grenache haute tenue sur larzac, violette, poivre, olive noire, tannin soyeux.">
-    <div class="wine-head">
-      <span class="wine-name">2023 Homs</span>
-      <span class="wine-price">127&nbsp;€</span>
-    </div>
-    <div class="wine-meta">Cassagne &amp; Vitailles · Vin de France</div>
-    <div class="wine-desc"><span class="cepage">Grenache</span> — Haute tenue sur Larzac, violette, poivre, olive noire, tannin soyeux.</div>
-  </div>
-
-  <div class="wine" data-q="2022 montcalmes domaine de montcalmes terrasses du larzac syrah, mourvedre, grenache structuree, puissante et longue, legere amertume de fraicheur en finale.">
-    <div class="wine-head">
-      <span class="wine-name">2022 Montcalmès</span>
-      <span class="wine-price">80&nbsp;€</span>
-    </div>
-    <div class="wine-meta">Domaine de Montcalmès · Terrasses du Larzac</div>
-    <div class="wine-desc"><span class="cepage">Syrah, Mourvèdre, Grenache</span> — Structurée, puissante et longue, légère amertume de fraîcheur en finale.</div>
-  </div>
-  </div>
-
-  <div class="group">
-    <div class="tag tag-foreign"><span>Italie &amp; Espagne</span></div>
-    
-  <div class="wine" data-q="2024 nero d'avola feudo arancio sicilia doc nero d'avola cerise noire, chocolat, tannin doux.">
-    <div class="wine-head">
-      <span class="wine-name">2024 Nero d'Avola</span>
-      <span class="wine-price">25&nbsp;€</span>
-    </div>
-    <div class="wine-meta">Feudo Arancio · Sicilia DOC</div>
-    <div class="wine-desc"><span class="cepage">Nero d'Avola</span> — Cerise noire, chocolat, tannin doux.</div>
-  </div>
-
-  <div class="wine" data-q="2024 lenos tenuta patruno perniola gioia del colle doc primitivo pouilles expressives, fruits confits, chocolat, epices chaudes.">
-    <div class="wine-head">
-      <span class="wine-name">2024 Lenos</span>
-      <span class="wine-price">38&nbsp;€</span>
-    </div>
-    <div class="wine-meta">Tenuta Patruno Perniola · Gioia del Colle DOC</div>
-    <div class="wine-desc"><span class="cepage">Primitivo</span> — Pouilles expressives, fruits confits, chocolat, épices chaudes.</div>
-  </div>
-
-  <div class="wine" data-q="2024 el picaro bodega matsu toro tempranillo fruits noirs, reglisse, structure dense.">
-    <div class="wine-head">
-      <span class="wine-name">2024 El Picaro</span>
-      <span class="wine-price">27&nbsp;€</span>
-    </div>
-    <div class="wine-meta">Bodega Matsu · Toro</div>
-    <div class="wine-desc"><span class="cepage">Tempranillo</span> — Fruits noirs, réglisse, structure dense.</div>
-  </div>
-  </div>
-  </div>
-</section>
-
-<section class="menu-section" id="bieres" data-section-title="Bières &amp; Digestifs">
-  <div class="section-head">
-    <span class="section-kicker">VII</span>
-    <h2 class="section-title">Bières &amp; Digestifs</h2>
-  </div>
-  <div class="section-body">
-    
-  <div class="group">
-    <div class="tag"><span>Bières</span></div>
-    
-    <div class="subhead">
-      <span>Au fût</span>
-      <span class="price-grid sizes"><span class="price-cell">25cl</span><span class="price-cell">33cl</span><span class="price-cell">50cl</span></span>
-    </div>
-    
-    <div class="row" data-q="jupiler">
-      <div class="row-txt">
-        <span class="row-name">Jupiler</span>
-        
-      </div>
-      <span class="price-grid"><span class="price-cell">2,90</span><span class="price-cell">3,80</span><span class="price-cell">5,50&nbsp;€</span></span>
-    </div>
-
-    <div class="row" data-q="queue de charrue triple triple / rouge">
-      <div class="row-txt">
-        <span class="row-name">Queue de Charrue Triple</span>
-        <span class="row-note">Triple / Rouge</span>
-      </div>
-      <span class="price-grid"><span class="price-cell">4,00</span><span class="price-cell">5,50</span><span class="price-cell">7,50&nbsp;€</span></span>
-    </div>
-
-    <div class="subhead">
-      <span>Bouteille</span>
-      <span class="unit">33cl</span>
-    </div>
-    
-    <div class="row" data-q="duvel">
-      <div class="row-txt"><span class="row-name">Duvel</span></div>
-      <span class="row-price">5,50&nbsp;€</span>
-    </div>
-
-    <div class="row" data-q="fourchette">
-      <div class="row-txt"><span class="row-name">Fourchette</span></div>
-      <span class="row-price">5,50&nbsp;€</span>
-    </div>
-  </div>
-
-  <div class="group">
-    <div class="tag"><span>Boissons Chaudes</span></div>
-    
-  <div class="row" data-q="espresso">
-    <div class="row-txt">
-      <span class="row-name">Espresso</span>
-      
-    </div>
-    <span class="row-price">2,50&nbsp;€</span>
-  </div>
-
-  <div class="row" data-q="double espresso">
-    <div class="row-txt">
-      <span class="row-name">Double Espresso</span>
-      
-    </div>
-    <span class="row-price">3,00&nbsp;€</span>
-  </div>
-
-  <div class="row" data-q="americano">
-    <div class="row-txt">
-      <span class="row-name">Americano</span>
-      
-    </div>
-    <span class="row-price">3,50&nbsp;€</span>
-  </div>
-
-  <div class="row" data-q="capuccino">
-    <div class="row-txt">
-      <span class="row-name">Capuccino</span>
-      
-    </div>
-    <span class="row-price">3,50&nbsp;€</span>
-  </div>
-
-  <div class="row" data-q="irish / french / italian / bailey's coffee">
-    <div class="row-txt">
-      <span class="row-name">Irish / French / Italian / Bailey's coffee</span>
-      
-    </div>
-    <span class="row-price">11,00&nbsp;€</span>
-  </div>
-  </div>
-
-  <div class="group">
-    <div class="tag"><span>Digestifs</span></div>
-    
-  <div class="row" data-q="eau de villee">
-    <div class="row-txt">
-      <span class="row-name">Eau de Villée</span>
-      
-    </div>
-    <span class="row-price">8,00&nbsp;€</span>
-  </div>
-
-  <div class="row" data-q="poire n1">
-    <div class="row-txt">
-      <span class="row-name">Poire N1</span>
-      
-    </div>
-    <span class="row-price">10,00&nbsp;€</span>
-  </div>
-
-  <div class="row" data-q="black pear">
-    <div class="row-txt">
-      <span class="row-name">Black Pear</span>
-      
-    </div>
-    <span class="row-price">6,00&nbsp;€</span>
-  </div>
-
-  <div class="row" data-q="cognac vsop - drouet">
-    <div class="row-txt">
-      <span class="row-name">Cognac VSOP - Drouet</span>
-      
-    </div>
-    <span class="row-price">10,50&nbsp;€</span>
-  </div>
-
-  <div class="row" data-q="calvados hors d'age - dupont">
-    <div class="row-txt">
-      <span class="row-name">Calvados Hors d'Âge - Dupont</span>
-      
-    </div>
-    <span class="row-price">14,00&nbsp;€</span>
-  </div>
-
-  <div class="row" data-q="armagnac 8 ans - darroze">
-    <div class="row-txt">
-      <span class="row-name">Armagnac 8 ans - Darroze</span>
-      
-    </div>
-    <span class="row-price">12,50&nbsp;€</span>
-  </div>
-
-  <div class="row" data-q="menthe poivree - jacoulot">
-    <div class="row-txt">
-      <span class="row-name">Menthe Poivrée - Jacoulot</span>
-      
-    </div>
-    <span class="row-price">7,00&nbsp;€</span>
-  </div>
-
-  <div class="row" data-q="abricot - jacoulot">
-    <div class="row-txt">
-      <span class="row-name">Abricot - Jacoulot</span>
-      
-    </div>
-    <span class="row-price">8,00&nbsp;€</span>
-  </div>
-
-  <div class="row" data-q="marc 7 ans - jacoulot">
-    <div class="row-txt">
-      <span class="row-name">Marc 7 ans - Jacoulot</span>
-      
-    </div>
-    <span class="row-price">12,50&nbsp;€</span>
-  </div>
-
-  <div class="row" data-q="amaretto - noblesse">
-    <div class="row-txt">
-      <span class="row-name">Amaretto - Noblesse</span>
-      
-    </div>
-    <span class="row-price">7,00&nbsp;€</span>
-  </div>
-
-  <div class="row" data-q="lemon - jacoulot">
-    <div class="row-txt">
-      <span class="row-name">Lemon - Jacoulot</span>
-      
-    </div>
-    <span class="row-price">8,00&nbsp;€</span>
-  </div>
-
-  <div class="row" data-q="grappa - molino">
-    <div class="row-txt">
-      <span class="row-name">Grappa - Molino</span>
-      
-    </div>
-    <span class="row-price">10,00&nbsp;€</span>
-  </div>
-
-  <div class="row" data-q="tequila jose cuervo">
-    <div class="row-txt">
-      <span class="row-name">Tequila José Cuervo</span>
-      
-    </div>
-    <span class="row-price">10,00&nbsp;€</span>
-  </div>
-  </div>
-  </div>
-</section>
-
-<section class="menu-section" id="softs" data-section-title="Softs">
-  <div class="section-head">
-    <span class="section-kicker">VIII</span>
-    <h2 class="section-title">Softs</h2>
-  </div>
-  <div class="section-body">
-    <div class="group">
-  <div class="row" data-q="eau bru 1/2 plate ou petillante">
-    <div class="row-txt">
-      <span class="row-name">Eau Bru 1/2</span>
-      <span class="row-note">Plate ou pétillante</span>
-    </div>
-    <span class="row-price">4,50&nbsp;€</span>
-  </div>
-
-  <div class="row" data-q="pepsi / pepsi zero">
-    <div class="row-txt">
-      <span class="row-name">Pepsi / Pepsi Zéro</span>
-      
-    </div>
-    <span class="row-price">4,00&nbsp;€</span>
-  </div>
-
-  <div class="row" data-q="sprite / ice tea">
-    <div class="row-txt">
-      <span class="row-name">Sprite / Ice Tea</span>
-      
-    </div>
-    <span class="row-price">4,00&nbsp;€</span>
-  </div>
-
-  <div class="row" data-q="jus de fruits looza tomate, ananas, orange ou pomme">
-    <div class="row-txt">
-      <span class="row-name">Jus de fruits Looza</span>
-      <span class="row-note">Tomate, ananas, orange ou pomme</span>
-    </div>
-    <span class="row-price">4,00&nbsp;€</span>
-  </div></div>
-  </div>
-</section>
-<p class="empty-note" id="emptyNote">Aucun résultat pour cette recherche.</p>
-</main>
+<main id="main"></main>
+<div id="emptyNote">Aucun résultat pour cette recherche.</div>
 
 <footer>
-  <span class="footer-brand">Le Corto Malté</span>
-  <span class="footer-rule"></span>
-  <span>Tournai</span>
+  <div class="footer-rule"></div>
+  <div class="footer-brand">Le Corto Malté</div>
+  <div class="footer-sub">Tournai — Carte des Vins &amp; Boissons</div>
 </footer>
 
-<button class="totop" id="toTop" aria-label="Retour en haut">
-  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
-</button>
+<button class="totop" id="totop" title="Haut de page">↑</button>
 
 <script>
-(function(){
-  "use strict";
-  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+// ============================================================
+// DONNÉES — Le Corto Malté (identiques à data.js)
+// ============================================================
+const APERITIFS = {
+  title: "Apéritifs",
+  items: [
+    { name: "Amer Labiau vin blanc", price: "7,00" },
+    { name: "Vermouth Bonbon Rouge ou Blanc", price: "9,00" },
+    { name: "Pastis Jacoulot", price: "6,00" },
+    { name: "Pastis Creissauds", price: "10,00" },
+    { name: "Americano", price: "10,00" },
+  ],
+};
+const SPRITZ_LIST = {
+  title: "Spritz",
+  items: [
+    { name: "Apérol", price: "9,00" },
+    { name: "Hugo, Lemon & Dandy", note: "Dandy : Violette", price: "10,00" },
+  ],
+};
+const GINS = {
+  title: "Gins Tonics",
+  items: [
+    { name: "Monkey 47", price: "14,00" },
+    { name: "Hendrick's", price: "12,00" },
+    { name: "Tanqueray", price: "12,00" },
+    { name: "Gin 1836 Organic", price: "12,00" },
+    { name: "Panda Organic", price: "12,00" },
+    { name: "19 Août - Gervin", price: "12,00" },
+    { name: "Caviar Bleu", price: "12,00" },
+    { name: "Juillet Gin Main de Bouddha", price: "12,00" },
+    { name: "Birdie", price: "12,00" },
+  ],
+};
+const RHUMS = {
+  title: "Rhums", unit: "5CL",
+  items: [
+    { name: "Santa Terreza", price: "12,00" },
+    { name: "Diplomatico", price: "12,00" },
+    { name: "Bumbu", price: "12,00" },
+    { name: "Don Papa", price: "12,00" },
+    { name: "Boucan d'Enfer - Ferroni", price: "10,00" },
+  ],
+};
+const WHISKYS = {
+  title: "Whiskys",
+  items: [
+    { name: "Welches - Sauternes finish", price: "10,00" },
+    { name: "Welches Fumé", price: "10,00" },
+    { name: "Jacoulot - 3 ans", price: "11,00" },
+    { name: "Old Pulteney - 12 ans", price: "11,00" },
+    { name: "Laphroaig - Quarter Cask", price: "14,00" },
+  ],
+};
+const BIERES = {
+  title: "Bières",
+  subs: [
+    { label: "Au fût", sizes: ["25cl","33cl","50cl"], items: [
+      { name: "Jupiler", prices: ["2,90","3,80","5,50"] },
+      { name: "Queue de Charrue Triple", note: "Triple / Rouge", prices: ["4,00","5,50","7,50"] },
+    ]},
+    { label: "Bouteille", unit: "33cl", items: [
+      { name: "Duvel", price: "5,50" },
+      { name: "Fourchette", price: "5,50" },
+    ]},
+  ],
+};
+const CHAUDES = {
+  title: "Boissons Chaudes",
+  items: [
+    { name: "Espresso", price: "2,50" },
+    { name: "Double Espresso", price: "3,00" },
+    { name: "Americano", price: "3,50" },
+    { name: "Capuccino", price: "3,50" },
+    { name: "Irish / French / Italian / Bailey's coffee", price: "11,00" },
+  ],
+};
+const DIGESTIFS = {
+  title: "Digestifs",
+  items: [
+    { name: "Eau de Villée", price: "8,00" },
+    { name: "Poire N1", price: "10,00" },
+    { name: "Black Pear", price: "6,00" },
+    { name: "Cognac VSOP - Drouet", price: "10,50" },
+    { name: "Calvados Hors d'Âge - Dupont", price: "14,00" },
+    { name: "Armagnac 8 ans - Darroze", price: "12,50" },
+    { name: "Menthe Poivrée - Jacoulot", price: "7,00" },
+    { name: "Abricot - Jacoulot", price: "8,00" },
+    { name: "Marc 7 ans - Jacoulot", price: "12,50" },
+    { name: "Amaretto - Noblesse", price: "7,00" },
+    { name: "Lemon - Jacoulot", price: "8,00" },
+    { name: "Grappa - Molino", price: "10,00" },
+    { name: "Tequila José Cuervo", price: "10,00" },
+  ],
+};
+const SOFTS = [
+  { name: "Eau Bru 1/2", note: "Plate ou pétillante", price: "4,50" },
+  { name: "Pepsi / Pepsi Zéro", note: "", price: "4,00" },
+  { name: "Sprite / Ice Tea", note: "", price: "4,00" },
+  { name: "Jus de fruits Looza", note: "Tomate, ananas, orange ou pomme", price: "4,00" },
+];
+const BULLES = [
+  { millesime:"", name:"Cuvée M Lys Brut", domaine:"Dom. Mercier", appellation:"Vin Mousseux Brut", cepage:"Chardonnay, Pinot Noir, Pinot Meunier", desc:"Soyeux et rond, aux notes d'agrumes, de pêche de vigne et de coing.", price:"35" },
+  { millesime:"", name:"Les Vallons Confluence", domaine:"", appellation:"Champagne", cepage:"Chardonnay", desc:"Blanc de blancs, Maison d'Avize, tension minérale, crème, noisette.", price:"79" },
+  { millesime:"", name:"Brut Nature — Zéro Dosage", domaine:"Champagne Drappier", appellation:"Champagne", cepage:"Pinot Noir", desc:"Zéro dosage Côte des Bar, vineux, cerise, épices, persistant.", price:"94" },
+  { millesime:"", name:"3A Grand Cru", domaine:"Champagne De Sousa", appellation:"Champagne", cepage:"Chardonnay, Pinot Noir", desc:"Grand Cru Avize / Cramant / Oger, minéralité racée, profondeur.", price:"125" },
+  { millesime:"", name:"Tradition — Extra Brut", domaine:"Champagne De Sousa", appellation:"Champagne", cepage:"Chardonnay, Pinot Noir, Pinot Meunier", desc:"Mimosa, agrumes et fruits mûrs, pointe de miel, fraîcheur vive et gourmande.", price:"99" },
+];
+const VERRE_WINES = [
+  { millesime:"2025", name:"Chardonnay", domaine:"Dom. de la Provenquière", appellation:"IGP Pays d'Oc", cepage:"Chardonnay", desc:"Généreux et rond, poire, agrumes, sincère.", price:"6" },
+  { millesime:"2025", name:"Petit Clocher Sauvignon", domaine:"Dom. du Petit Clocher", appellation:"Vin de France", cepage:"Sauvignon Blanc", desc:"Agrumes, bourgeon de cassis, fraîcheur herbacée.", price:"7" },
+  { millesime:"2025", name:"Xtra Gris", domaine:"Dom. de la Provenquière", appellation:"Rosé Languedoc", cepage:"Grenache Gris", desc:"Gris pâle, fraise fraîche, léger et digeste.", price:"6" },
+  { millesime:"2025", name:"Cuvée 130", domaine:"Dom. Cailhol Gautran", appellation:"IGP Côtes de Brian", cepage:"Carignan", desc:"Fraise des bois, épices, bouche souple et directe.", price:"7" },
+  { millesime:"2024", name:"Nero d'Avola", domaine:"Feudo Arancio", appellation:"Sicilia DOC", cepage:"Nero d'Avola", desc:"Cerise noire, chocolat, tannin doux.", price:"6" },
+];
+const ROSES_GROUPS = [
+  { region:"Sud-Ouest & Bordeaux", wines:[
+    { millesime:"2025", name:"Les Vaudevilles Acte I", domaine:"Domaine de la Comédie", appellation:"Bordeaux Rosé", cepage:"", desc:"Discret de bonbons acidulés, senteur de roses et de fruits rouges, bouche ample et élégante.", price:"29" },
+  ]},
+  { region:"Rhône Sud", wines:[
+    { millesime:"2025", name:"Le Caillou Rosé", domaine:"Clos du Caillou", appellation:"Côtes du Rhône", cepage:"Grenache, Cinsault", desc:"Fruits rouges, fleur d'oranger, bouche ronde.", price:"39" },
+  ]},
+  { region:"Languedoc", wines:[
+    { millesime:"2025", name:"Xtra Gris", domaine:"Dom. de la Provenquière", appellation:"Rosé Languedoc", cepage:"Grenache Gris", desc:"Gris pâle, fraise fraîche, léger et digeste.", price:"25" },
+  ]},
+  { region:"Provence", wines:[
+    { millesime:"2025", name:"Château Réal d'Or", domaine:"", appellation:"Côtes de Provence", cepage:"Grenache, Cinsault, Syrah", desc:"Rosé provençal pâle, framboise, pamplemousse rose.", price:"35" },
+  ]},
+];
+const BLANCS_GROUPS = [
+  { region:"Loire", wines:[
+    { millesime:"2025", name:"Petit Clocher Sauvignon", domaine:"Dom. du Petit Clocher", appellation:"Vin de France", cepage:"Sauvignon Blanc", desc:"Agrumes, bourgeon de cassis, fraîcheur herbacée.", price:"26" },
+    { millesime:"2024", name:"Menetou Villages", domaine:"Dom. Pellé", appellation:"Menetou-Salon", cepage:"Sauvignon Blanc", desc:"Minéral sur silex, floral, bouche tendue et saline.", price:"44" },
+    { millesime:"2023", name:"Les Salles Martin", domaine:"Dom. Antoine Sanzay", appellation:"Saumur Blanc", cepage:"Chenin Blanc", desc:"Tuffeau, pomme verte, minéralité crayeuse et longue.", price:"74" },
+  ]},
+  { region:"Bourgogne", wines:[
+    { millesime:"2025", name:"Petit Chablis", domaine:"Dom. Christophe & Fils", appellation:"Bourgogne", cepage:"Chardonnay", desc:"Vif et iodé sur Kimméridgien, pomme verte, citron.", price:"42" },
+    { millesime:"2023", name:"Bourgogne Aligoté", domaine:"Dom. Sylvain Pataille", appellation:"Bourgogne", cepage:"Aligoté", desc:"Pomme fraîche, citron confit, acidité précise.", price:"55" },
+    { millesime:"2020", name:"Bois de la Croix", domaine:"Dom. Thibert & Fils", appellation:"Mâcon-Fuissé", cepage:"Chardonnay", desc:"Pêche blanche, noisette, miel, finale ronde.", price:"55" },
+    { millesime:"2023", name:"Les Perrières", domaine:"Dom. d'Ardhuy", appellation:"Hautes-Côtes de Beaune", cepage:"Chardonnay", desc:"Floral et fin, pomme, aubépine, souple et fraîche.", price:"63" },
+    { millesime:"2023", name:"Ladoix Villages", domaine:"Dom. d'Ardhuy", appellation:"Bourgogne", cepage:"Chardonnay", desc:"Noisette, fruits blancs, texture soyeuse et élégante.", price:"82" },
+    { millesime:"2018", name:"Petit Clos des Theurons", domaine:"Dom. d'Ardhuy", appellation:"Beaune 1er Cru", cepage:"Chardonnay", desc:"Belle maturité, beurre frais, agrumes confits, finale minérale.", price:"100" },
+    { millesime:"2020", name:"Sous le Puits", domaine:"Dom. d'Ardhuy", appellation:"Puligny-Montrachet 1er Cru", cepage:"Chardonnay", desc:"Élégance rare, floral, cailloux chauds, tension et longueur.", price:"174" },
+  ]},
+  { region:"Languedoc", wines:[
+    { millesime:"2025", name:"Chardonnay", domaine:"Dom. de la Provenquière", appellation:"IGP Pays d'Oc", cepage:"Chardonnay", desc:"Généreux et rond, poire, agrumes, sincère.", price:"25" },
+    { millesime:"2024", name:"Silice", domaine:"Domaine Les Eminades", appellation:"IGP Coteaux de Fontcaude", cepage:"Sauvignon Blanc", desc:"Fraîcheur minérale, agrumes, fruits exotiques, pierre à fusil.", price:"56" },
+  ]},
+  { region:"Sud-Ouest & Bordeaux", wines:[
+    { millesime:"2023", name:"Les Terres Blanches", domaine:"Dom. Chiroulet", appellation:"Côtes de Gascogne", cepage:"Colombard, Ugni Blanc", desc:"Citron, fleur blanche, de plaisir immédiat.", price:"25" },
+    { millesime:"2024", name:"Soleil d'Automne", domaine:"Dom. Chiroulet", appellation:"Côtes de Gascogne (moelleux)", cepage:"Sauvignon Blanc, Gros Manseng", desc:"Ananas, pamplemousse, aromatique et rond.", price:"27" },
+    { millesime:"2025", name:"La Jarousse", domaine:"Domaine de la Comédie", appellation:"IGP Atlantique", cepage:"Chardonnay", desc:"Notes briochées, crémeuses, de fruits secs (noisettes, amandes grillées) et de fleurs blanches.", price:"55" },
+    { millesime:"2023", name:"Part Davant", domaine:"Camin Larredya", appellation:"Jurançon Sec", cepage:"Gros Manseng, Petit Courbu", desc:"Abricot sec, agrumes, tension granitique.", price:"51" },
+  ]},
+  { region:"Rhône Sud", wines:[
+    { millesime:"2025", name:"Le Caillou Blanc", domaine:"Le Clos du Caillou", appellation:"Côtes du Rhône", cepage:"Clairette, Grenache Blanc, Roussanne, Viognier", desc:"Fleurs blanches, poire, bouche souple et fraîche.", price:"39" },
+  ]},
+  { region:"Rhône Nord", wines:[
+    { millesime:"2024", name:"Crozes-Hermitage", domaine:"Dom. G&J Bott", appellation:"Crozes-Hermitage", cepage:"Marsanne, Roussanne", desc:"Charnu, pêche blanche, abricot, finale minérale.", price:"61" },
+    { millesime:"2022", name:"Condrieu", domaine:"Dom. G&J Bott", appellation:"Condrieu", cepage:"Viognier", desc:"Charnu, pêche blanche, abricot, minérale.", price:"94" },
+  ]},
+  { region:"Italie", foreign:true, wines:[
+    { millesime:"2025", name:"Grillo", domaine:"Feudo Arancio", appellation:"Sicilia DOC", cepage:"Grillo", desc:"Fleur blanche, pêche, amande fraîche, salinité.", price:"25" },
+  ]},
+];
+const ROUGES_GROUPS = [
+  { region:"Loire", wines:[
+    { millesime:"2024", name:"La Paterne", domaine:"Dom. Antoine Sanzay", appellation:"Saumur-Champigny", cepage:"Cabernet Franc", desc:"Groseille, poivron doux, structure fine et fraîche.", price:"52" },
+    { millesime:"2023", name:"Menetou Morogues", domaine:"Dom. Pellé", appellation:"Menetou-Salon", cepage:"Pinot Noir", desc:"Cerise, fin et épicé sur silex, structure légère.", price:"45" },
+    { millesime:"2023", name:"Les Poyeux", domaine:"Dom. Antoine Sanzay", appellation:"Saumur-Champigny", cepage:"Cabernet Franc", desc:"Graphite, framboise, bouche soyeuse et précise.", price:"87" },
+  ]},
+  { region:"Bourgogne", wines:[
+    { millesime:"2023", name:"Bourgogne Rouge", domaine:"Dom. Sylvain Pataille", appellation:"Bourgogne", cepage:"Pinot Noir", desc:"Cerise, souple et fruité.", price:"59" },
+    { millesime:"2023", name:"En Clemengeots", domaine:"Dom. Sylvain Pataille", appellation:"Marsannay", cepage:"Pinot Noir", desc:"Cerise noire, épices, tannin de soie, finale persistante.", price:"98" },
+    { millesime:"2023", name:"La Montagne", domaine:"Dom. Sylvain Pataille", appellation:"Marsannay", cepage:"Pinot Noir", desc:"Lieu-dit charpenté, fruits noirs, terres humides, grande garde.", price:"98" },
+    { millesime:"2023", name:"Savigny-lès-Beaune", domaine:"Dom. d'Ardhuy", appellation:"Clos des Guettes 1er Cru", cepage:"Pinot Noir", desc:"Griotte, épices, tannin fin, bouche soyeuse.", price:"83" },
+    { millesime:"2023", name:"Gevrey-Chambertin", domaine:"Dom. d'Ardhuy", appellation:"Villages", cepage:"Pinot Noir", desc:"Cassis, épices, tannins fermes, grand terroir de Nuits.", price:"100" },
+    { millesime:"2023", name:"Fleur de Pinot", domaine:"Dom. Sylvain Pataille", appellation:"Marsannay Rosé - Bourgogne", cepage:"Pinot Noir", desc:"Cerise, rose séchée, bouche précise et ample.", price:"111" },
+  ]},
+  { region:"Bordeaux", wines:[
+    { millesime:"2020", name:"Château La Comédie", domaine:"", appellation:"Castillon Côtes de Bordeaux", cepage:"Merlot, Cabernet Franc, Cabernet Sauvignon", desc:"Robe rubis profonde, fraise confiturée, boisé élégant, tanins souples.", price:"44" },
+    { millesime:"2025", name:"Les Comédiennes", domaine:"Château la Comédie", appellation:"Bordeaux", cepage:"Merlot, Cabernet Franc", desc:"Fruits rouges croquants, gourmand et facile à boire.", price:"33" },
+    { millesime:"2020", name:"Fleur de Scène — Cuvée Prestige", domaine:"Château la Comédie", appellation:"Castillon Côtes de Bordeaux", cepage:"Merlot, Cabernet Franc, Cabernet Sauvignon", desc:"Fruits mûrs, figues sèches, épices, bouche ample et charnue, tanins enrobés, vin de garde.", price:"66" },
+  ]},
+  { region:"Beaujolais", wines:[
+    { millesime:"2023", name:"Cuvée Noémie", domaine:"Christophe Savoye", appellation:"Morgon", cepage:"Gamay", desc:"Cerise noire, griotte, minéralité granitique, tannin élégant.", price:"37" },
+    { millesime:"2024", name:"Le Vivier", domaine:"Dom. Yohan Lardy", appellation:"Fleurie", cepage:"Gamay", desc:"Soyeux et parfumé, pivoine, framboise, touche florale.", price:"42" },
+  ]},
+  { region:"Rhône Nord", wines:[
+    { millesime:"2023", name:"La Syrah d'Ogier", domaine:"Dom. Stéphane Ogier", appellation:"Côtes du Rhône", cepage:"Syrah", desc:"Initiation au Nord-Rhône, violette, poivre, fruité sincère.", price:"44" },
+    { millesime:"2023", name:"Saint-Joseph", domaine:"Dom. G & J Bott", appellation:"Saint-Joseph", cepage:"Syrah", desc:"Granitique, olive noire, poivre, viande fumée, tannin ciselé.", price:"74" },
+    { millesime:"2021", name:"Côte-Rôtie Mon Village", domaine:"Dom. Stéphane Ogier", appellation:"Côte-Rôtie", cepage:"Syrah, Viognier", desc:"D'un maître du Nord-Rhône, violette, cacao, élégant.", price:"135" },
+  ]},
+  { region:"Rhône Sud", wines:[
+    { millesime:"2024", name:"Les Garrigues", domaine:"Château Juvenal", appellation:"Ventoux", cepage:"Grenache, Syrah", desc:"Frais, fruits rouges sauvages, herbes de Provence, léger.", price:"25" },
+    { millesime:"", name:"La Mourvache", domaine:"Clos des Centenaires", appellation:"Côtes du Rhône", cepage:"Mourvèdre, Grenache", desc:"Charnu et profond, sur les fruits noirs, la réglisse et une belle structure tannique.", price:"45" },
+    { millesime:"2023", name:"La Petite Ourse", domaine:"Dom. La Grande Ourse", appellation:"Côtes du Rhône", cepage:"Grenache, Syrah", desc:"Sincère, cerise, olive noire, bouche souple et franche.", price:"44" },
+    { millesime:"2024", name:"Le Petit Bosquets", domaine:"Dom. Les Bosquets", appellation:"Vin de France", cepage:"Grenache, Syrah", desc:"Fruité par le domaine de Gigondas, croquant et gourmand.", price:"31" },
+    { millesime:"2025", name:"Le Caillou", domaine:"Clos du Caillou", appellation:"Côtes du Rhône", cepage:"Grenache, Syrah, Mourvèdre, Cinsault", desc:"Groseille, cassis, cerise, poivre blanc, pétale de rose, souple et juteux.", price:"39" },
+    { millesime:"2024", name:"Bouquet des Garrigues", domaine:"Le Clos du Caillou", appellation:"Côtes du Rhône", cepage:"Grenache, Syrah, Mourvèdre, Counoise", desc:"Fruits rouges mûrs, garrigue, bouche ronde.", price:"45" },
+    { millesime:"2025", name:"Vacqueyras", domaine:"Dom. d'Ouréa", appellation:"Les Vignes du Parc", cepage:"Grenache", desc:"Fruits noirs, épices, garrigue, charpente méridionale.", price:"49" },
+    { millesime:"2023", name:"Gigondas", domaine:"Dom. Les Bosquets", appellation:"Les Hauts Lieux", cepage:"Grenache, Syrah, Mourvèdre", desc:"Fruits noirs, violette, tannins denses et sapides.", price:"76" },
+    { millesime:"2023", name:"Châteauneuf-du-Pape", domaine:"Le Clos du Caillou", appellation:"Les Safres", cepage:"Grenache, Syrah, Mourvèdre", desc:"Sur galets roulés, fruits confits, épices, veloutés.", price:"88" },
+  ]},
+  { region:"Languedoc", wines:[
+    { millesime:"2025", name:"Cuvée 130", domaine:"Dom. Cailhol Gautran", appellation:"IGP Côtes de Brian", cepage:"Carignan", desc:"Fraise des bois, épices, bouche souple et directe.", price:"25" },
+    { millesime:"2023", name:"Premier Sceau", domaine:"Dom. Marion Pla", appellation:"Saint-Chinian", cepage:"Syrah, Mourvèdre, Grenache", desc:"Fruits noirs, olive, tannins souples, solaire.", price:"27" },
+    { millesime:"2023", name:"Pure C", domaine:"Dom. La Barthassade", appellation:"VdP d'Hérault", cepage:"Cinsault", desc:"Fruits rouges, épices, bouche directe et sincère.", price:"42" },
+    { millesime:"2025", name:"Hautes Pistes Pinot Noir", domaine:"Dom. Aubert & Mathieu", appellation:"IGP Pays d'Oc", cepage:"Pinot Noir", desc:"Pinot du Midi en finesse, fraise, cerise, légèreté surprenante.", price:"36" },
+    { millesime:"2023", name:"Nimalaya", domaine:"Cassagne & Vitailles", appellation:"Vin de France", cepage:"Carignan", desc:"Cassis, poivre, tannin ferme, structuré.", price:"85" },
+    { millesime:"2019", name:"Clas Mani", domaine:"Cassagne & Vitailles", appellation:"Terrasses du Larzac", cepage:"Syrah, Grenache, Carignan", desc:"Schistes, minéral, fruits noirs, garde et précision.", price:"94" },
+    { millesime:"2023", name:"Homs", domaine:"Cassagne & Vitailles", appellation:"Vin de France", cepage:"Grenache", desc:"Haute tenue sur Larzac, violette, poivre, olive noire, tannin soyeux.", price:"127" },
+    { millesime:"2022", name:"Montcalmès", domaine:"Domaine de Montcalmès", appellation:"Terrasses du Larzac", cepage:"Syrah, Mourvèdre, Grenache", desc:"Structurée, puissante et longue, légère amertume de fraîcheur en finale.", price:"80" },
+  ]},
+  { region:"Italie & Espagne", foreign:true, wines:[
+    { millesime:"2024", name:"Nero d'Avola", domaine:"Feudo Arancio", appellation:"Sicilia DOC", cepage:"Nero d'Avola", desc:"Cerise noire, chocolat, tannin doux.", price:"25" },
+    { millesime:"2024", name:"Lenos", domaine:"Tenuta Patruno Perniola", appellation:"Gioia del Colle DOC", cepage:"Primitivo", desc:"Pouilles expressives, fruits confits, chocolat, épices chaudes.", price:"38" },
+    { millesime:"2024", name:"El Picaro", domaine:"Bodega Matsu", appellation:"Toro", cepage:"Tempranillo", desc:"Fruits noirs, réglisse, structure dense.", price:"27" },
+  ]},
+];
+const BRADERIE = {
+  dates: "11 → 14 Septembre",
+  formule: {
+    title: "Formule Braderie", price: "35",
+    steps: [
+      { label:"Accueil", name:"Spritz ou coupe de Ruffus" },
+      { label:"Entrée", name:"Croquette de crevette", desc:"Panure croustillante, cœur fondant." },
+      { label:"Plat", name:"Jarret de cochon ou Cabillaud", desc:"Jarret mijoté à la bière belge, ou poisson du moment." },
+      { label:"Pour finir", name:"Dessert ou fromage" },
+    ],
+  },
+  ruffus: { name:"Ruffus", desc:"Méthode traditionnelle belge — Vignoble des Agaisses, Haulchin.", coupe:"10", bouteille:"45" },
+  streetFood: [
+    { name:"Fish and Chips", price:"13" },
+    { name:"Croque Monsieur à la Truffe", price:"15" },
+    { name:"Hot Dog du Corto", price:"13" },
+  ],
+  tapas: [
+    { name:"Croquette de Crevettes", note:"La pièce", price:"8" },
+    { name:"Planche de Fromage", price:"13" },
+    { name:"Planche de Charcuterie", price:"18" },
+  ],
+};
 
-  // ---------- reveal on scroll ----------
-  var sections = Array.prototype.slice.call(document.querySelectorAll('.menu-section'));
-  if('IntersectionObserver' in window && !reduceMotion){
-    var revealObs = new IntersectionObserver(function(entries){
-      entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in-view'); revealObs.unobserve(e.target); } });
-    }, {rootMargin:'0px 0px -8% 0px', threshold:0.05});
-    sections.forEach(function(s){ revealObs.observe(s); });
-  } else {
-    sections.forEach(function(s){ s.classList.add('in-view'); });
-  }
+// ============================================================
+// RENDU
+// ============================================================
+function esc(s){
+  return String(s==null?"":s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+function norm(s){
+  return String(s==null?"":s).normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase();
+}
+function drinkRow(item){
+  const searchTxt = norm([item.name, item.note].filter(Boolean).join(' '));
+  return `<div class="row" data-search="${esc(searchTxt)}">
+    <div class="row-txt">
+      <span class="row-name">${esc(item.name)}</span>
+      ${item.note ? `<span class="row-note">${esc(item.note)}</span>` : ''}
+    </div>
+    <span class="row-price">${esc(item.price)}&nbsp;€</span>
+  </div>`;
+}
+function drinkGroup(data){
+  return `<div class="group">
+    <div class="group-tag"><span>${esc(data.title)}</span>${data.unit ? `<span class="group-unit">${esc(data.unit)}</span>` : ''}</div>
+    ${data.items.map(drinkRow).join('')}
+  </div>`;
+}
+function beerGroup(data){
+  const subs = data.subs.map(sub => {
+    if(sub.sizes){
+      const rows = sub.items.map(it => {
+        const searchTxt = norm([it.name, it.note].filter(Boolean).join(' '));
+        return `<div class="row" data-search="${esc(searchTxt)}">
+          <div class="row-txt">
+            <span class="row-name">${esc(it.name)}</span>
+            ${it.note ? `<span class="row-note">${esc(it.note)}</span>` : ''}
+          </div>
+          <div class="row-prices">${it.prices.map(p=>`<span>${esc(p)}€</span>`).join('')}</div>
+        </div>`;
+      }).join('');
+      return `<div class="group">
+        <div class="group-tag"><span>${esc(data.title)} — ${esc(sub.label)}</span><span class="group-unit">${sub.sizes.join(' / ')}</span></div>
+        ${rows}
+      </div>`;
+    }
+    return `<div class="group">
+      <div class="group-tag"><span>${esc(data.title)} — ${esc(sub.label)}</span>${sub.unit?`<span class="group-unit">${esc(sub.unit)}</span>`:''}</div>
+      ${sub.items.map(drinkRow).join('')}
+    </div>`;
+  }).join('');
+  return subs;
+}
+function wineRow(w){
+  const searchTxt = norm([w.name, w.domaine, w.appellation, w.cepage, w.desc].filter(Boolean).join(' '));
+  return `<div class="wine-row" data-search="${esc(searchTxt)}">
+    <div class="wine-top">
+      <span class="wine-name">${w.millesime ? `<span class="wine-mill">${esc(w.millesime)}</span> ` : ''}${esc(w.name)}</span>
+      <span class="wine-price">${esc(w.price)}&nbsp;€</span>
+    </div>
+    <div class="wine-meta">${[w.domaine, w.appellation, w.cepage].filter(Boolean).map(esc).join(' · ')}</div>
+    ${w.desc ? `<div class="wine-desc">${esc(w.desc)}</div>` : ''}
+  </div>`;
+}
+function wineFlatGroup(title, wines){
+  return `<div class="group"><div class="group-tag"><span>${esc(title)}</span></div>${wines.map(wineRow).join('')}</div>`;
+}
+function wineRegionGroups(groups){
+  return groups.map(g => `<div class="region-block">
+    <div class="region-name">${esc(g.region)}${g.foreign?' · sélection internationale':''}</div>
+    ${g.wines.map(wineRow).join('')}
+  </div>`).join('');
+}
+function section(id, kicker, title, inner){
+  return `<section class="card-section" id="${id}">
+    <div class="sec-head">
+      <div class="sec-kicker">${esc(kicker)}</div>
+      <h2 class="sec-title">${esc(title)}</h2>
+      <div class="sec-rule"></div>
+    </div>
+    ${inner}
+  </section>`;
+}
+function braderieSection(){
+  const f = BRADERIE.formule;
+  const steps = f.steps.map(s => `<div class="formule-step">
+    <span class="step-label">${esc(s.label)}</span>
+    <div class="step-name">${esc(s.name)}</div>
+    ${s.desc ? `<div class="step-desc">${esc(s.desc)}</div>` : ''}
+  </div>`).join('');
+  const streetFoodRows = BRADERIE.streetFood.map(it => `<div class="row" data-search="${esc(norm(it.name))}">
+    <div class="row-txt"><span class="row-name">${esc(it.name)}</span></div>
+    <span class="row-price">${esc(it.price)}&nbsp;€</span>
+  </div>`).join('');
+  const tapasRows = BRADERIE.tapas.map(it => {
+    const searchTxt = norm([it.name, it.note].filter(Boolean).join(' '));
+    return `<div class="row" data-search="${esc(searchTxt)}">
+    <div class="row-txt">
+      <span class="row-name">${esc(it.name)}</span>
+      ${it.note ? `<span class="row-note">${esc(it.note)}</span>` : ''}
+    </div>
+    <span class="row-price">${esc(it.price)}&nbsp;€</span>
+  </div>`;
+  }).join('');
+  const spritzRows = SPRITZ_LIST.items.map(drinkRow).join('');
+  const formuleSearch = norm([f.title, ...f.steps.map(s=>[s.label,s.name,s.desc].filter(Boolean).join(' '))].join(' '));
+  const ruffusSearch = norm([BRADERIE.ruffus.name, BRADERIE.ruffus.desc].join(' '));
 
-  // ---------- scrollspy on nav chips ----------
-  var chips = Array.prototype.slice.call(document.querySelectorAll('.chip'));
-  var chipById = {};
-  chips.forEach(function(c){ chipById[c.dataset.target] = c; });
+  const inner = `
+    <div style="text-align:center;">
+      <span class="braderie-badge">Édition spéciale</span>
+      <div class="braderie-dates">${esc(BRADERIE.dates)}</div>
+    </div>
 
-  function setActive(id){
-    chips.forEach(function(c){ c.classList.toggle('active', c.dataset.target === id); });
-    var active = chipById[id];
-    if(active){ active.scrollIntoView({block:'nearest', inline:'center', behavior: reduceMotion ? 'auto' : 'smooth'}); }
-  }
+    <div class="formule-card" data-search="${esc(formuleSearch)}">
+      <div class="formule-title">${esc(f.title)}</div>
+      ${steps}
+      <div class="formule-price">
+        <span class="amount">${esc(f.price)}&nbsp;€</span>
+        <span class="label">Formule complète</span>
+      </div>
+    </div>
 
-  if('IntersectionObserver' in window){
-    var spy = new IntersectionObserver(function(entries){
-      entries.forEach(function(e){
-        if(e.isIntersecting){ setActive(e.target.id); }
-      });
-    }, {rootMargin:'-45% 0px -50% 0px', threshold:0});
-    sections.forEach(function(s){ spy.observe(s); });
-  }
+    <div class="grid2">
+      <div class="group">
+        <div class="group-tag"><span>Bar à Spritz</span></div>
+        ${spritzRows}
+      </div>
+      <div class="group">
+        <div class="group-tag"><span>Méthode Traditionnelle Belge</span></div>
+        <div class="ruffus-card" data-search="${esc(ruffusSearch)}">
+          <div class="ruffus-name">${esc(BRADERIE.ruffus.name)}</div>
+          <div class="ruffus-desc">${esc(BRADERIE.ruffus.desc)}</div>
+          <div class="ruffus-prices">
+            <div class="ruffus-price-item"><span class="plabel">Coupe</span><span class="pval">${esc(BRADERIE.ruffus.coupe)}&nbsp;€</span></div>
+            <div class="ruffus-price-item"><span class="plabel">Bouteille</span><span class="pval">${esc(BRADERIE.ruffus.bouteille)}&nbsp;€</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
 
-  chips.forEach(function(c){
-    c.addEventListener('click', function(ev){
-      ev.preventDefault();
-      var target = document.getElementById(c.dataset.target);
-      if(target){
-        var top = target.getBoundingClientRect().top + window.pageYOffset - 118;
-        window.scrollTo({top:top, behavior: reduceMotion ? 'auto' : 'smooth'});
-      }
-    });
+    <div class="grid2">
+      <div class="group">
+        <div class="group-tag"><span>Street Food</span></div>
+        ${streetFoodRows}
+      </div>
+      <div class="group">
+        <div class="group-tag"><span>Tapas &amp; Planches</span></div>
+        ${tapasRows}
+      </div>
+    </div>
+  `;
+  return section('braderie', 'Braderie de Tournai', 'Menu Spécial Braderie', inner);
+}
+
+const sections = [
+  braderieSection(),
+  section('aperitifs', "À l'apéritif", 'Apéritifs', [
+    drinkGroup(APERITIFS), drinkGroup(SPRITZ_LIST), drinkGroup(GINS), drinkGroup(RHUMS), drinkGroup(WHISKYS),
+  ].join('')),
+  section('verre', 'Sélection', 'Vins au Verre', wineFlatGroup('Au Verre', VERRE_WINES)),
+  section('bulles', 'Effervescence', 'Bulles', wineFlatGroup('Bulles', BULLES)),
+  section('roses', 'Du Nord au Sud', 'Rosés', wineRegionGroups(ROSES_GROUPS)),
+  section('blancs', 'Du Nord au Sud', 'Blancs', wineRegionGroups(BLANCS_GROUPS)),
+  section('rouges', 'Du Nord au Sud', 'Rouges', wineRegionGroups(ROUGES_GROUPS)),
+  section('bieres', 'À la pression et en bouteille', 'Bières', [
+    beerGroup(BIERES), drinkGroup(CHAUDES), drinkGroup(DIGESTIFS),
+  ].join('')),
+  section('softs', 'Sans alcool', 'Softs', `<div class="group">${SOFTS.map(drinkRow).join('')}</div>`),
+];
+
+document.getElementById('main').innerHTML = sections.join('');
+
+// ---- Reveal on scroll ----
+const revealObs = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); revealObs.unobserve(e.target); } });
+},{ threshold:0.06 });
+document.querySelectorAll('.card-section').forEach(s=>revealObs.observe(s));
+
+// ---- Scrollspy ----
+const navLinks = Array.from(document.querySelectorAll('.chip[data-nav]'));
+const spyObs = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      navLinks.forEach(a=>a.classList.remove('active'));
+      const link = navLinks.find(a=>a.dataset.nav === e.target.id);
+      if(link){ link.classList.add('active'); link.scrollIntoView({block:'nearest', inline:'center', behavior:'smooth'}); }
+    }
   });
+},{ rootMargin:'-45% 0px -50% 0px', threshold:0 });
+document.querySelectorAll('.card-section').forEach(s=>spyObs.observe(s));
 
-  // ---------- search / filter ----------
-  var input = document.getElementById('search');
-  var clearBtn = document.getElementById('searchClear');
-  var emptyNote = document.getElementById('emptyNote');
-  var groups = Array.prototype.slice.call(document.querySelectorAll('.group'));
-
-  function normalize(str){
-    return (str || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
-  }
-
-  function applyFilter(){
-    var q = normalize(input.value.trim());
-    clearBtn.classList.toggle('show', q.length > 0);
-    var anyVisible = false;
-
-    groups.forEach(function(group){
-      var items = Array.prototype.slice.call(group.querySelectorAll('[data-q]'));
-      var groupHasMatch = false;
-      items.forEach(function(item){
-        var match = q === '' || (item.getAttribute('data-q') || '').indexOf(q) !== -1;
-        item.classList.toggle('hidden', !match);
-        if(match){ groupHasMatch = true; }
-      });
-      group.classList.toggle('hidden', !groupHasMatch);
-      if(groupHasMatch){ anyVisible = true; }
+// ---- Search / filter ----
+const searchInput = document.getElementById('search');
+const emptyNote = document.getElementById('emptyNote');
+searchInput.addEventListener('input', ()=>{
+  const q = norm(searchInput.value.trim());
+  let anyVisible = false;
+  document.querySelectorAll('.card-section').forEach(sec=>{
+    let sectionHasMatch = !q;
+    sec.querySelectorAll('.row, .wine-row, .formule-card, .ruffus-card').forEach(row=>{
+      const hit = !q || (row.dataset.search||'').includes(q);
+      row.style.display = hit ? '' : 'none';
+      if(hit) sectionHasMatch = true;
     });
-
-    sections.forEach(function(sec){
-      var visibleGroups = sec.querySelectorAll('.group:not(.hidden)').length;
-      sec.style.display = (q !== '' && visibleGroups === 0) ? 'none' : '';
+    sec.querySelectorAll('.group, .region-block').forEach(group=>{
+      const rows = group.querySelectorAll('.row, .wine-row, .formule-card, .ruffus-card');
+      const anyRowVisible = Array.from(rows).some(r=>r.style.display !== 'none');
+      group.style.display = (rows.length===0 || anyRowVisible) ? '' : 'none';
     });
-
-    emptyNote.classList.toggle('show', q !== '' && !anyVisible);
-  }
-
-  input.addEventListener('input', applyFilter);
-  clearBtn.addEventListener('click', function(){
-    input.value = '';
-    applyFilter();
-    input.focus();
+    sec.style.display = sectionHasMatch ? '' : 'none';
+    if(sectionHasMatch) anyVisible = true;
   });
+  emptyNote.style.display = (q && !anyVisible) ? 'block' : 'none';
+});
 
-  // ---------- back to top ----------
-  var toTop = document.getElementById('toTop');
-  window.addEventListener('scroll', function(){
-    toTop.classList.toggle('show', window.pageYOffset > 640);
-  }, {passive:true});
-  toTop.addEventListener('click', function(){
-    window.scrollTo({top:0, behavior: reduceMotion ? 'auto' : 'smooth'});
-  });
-})();
+// ---- Back to top ----
+const totop = document.getElementById('totop');
+window.addEventListener('scroll', ()=>{ totop.classList.toggle('show', window.scrollY > 600); }, {passive:true});
+totop.addEventListener('click', ()=>window.scrollTo({top:0, behavior:'smooth'}));
+
+// ---- Theme toggle ----
+const themeToggle = document.getElementById('themeToggle');
+function applyTheme(t){
+  if(t){ document.documentElement.setAttribute('data-theme', t); themeToggle.textContent = t==='dark' ? '☀' : '☾'; }
+}
+let currentTheme = null;
+themeToggle.addEventListener('click', ()=>{
+  currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
+  applyTheme(currentTheme);
+});
 </script>
 </body>
 </html>
