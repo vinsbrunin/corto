@@ -518,6 +518,9 @@ const BRADERIE = {
     ],
   },
   ruffus: { name:"Ruffus", desc:"Méthode traditionnelle belge — Vignoble des Agaisses, Haulchin.", coupe:"10", bouteille:"45" },
+  bieres: [
+    { name:"Queue de Charrue Blonde", note:"25cl", price:"4,00" },
+  ],
   streetFood: [
     { name:"Fish and Chips", price:"13" },
     { name:"Croque Monsieur à la Truffe", price:"15" },
@@ -632,6 +635,7 @@ function braderieSection(){
   </div>`;
   }).join('');
   const spritzRows = SPRITZ_LIST.items.map(drinkRow).join('');
+  const bieresRows = BRADERIE.bieres.map(drinkRow).join('');
   const formuleSearch = norm([f.title, ...f.steps.map(s=>[s.label,s.name,s.desc].filter(Boolean).join(' '))].join(' '));
   const ruffusSearch = norm([BRADERIE.ruffus.name, BRADERIE.ruffus.desc].join(' '));
 
@@ -654,6 +658,10 @@ function braderieSection(){
       <div class="group">
         <div class="group-tag"><span>Bar à Spritz</span></div>
         ${spritzRows}
+      </div>
+      <div class="group">
+        <div class="group-tag"><span>Bières Belges</span></div>
+        ${bieresRows}
       </div>
       <div class="group">
         <div class="group-tag"><span>Méthode Traditionnelle Belge</span></div>
