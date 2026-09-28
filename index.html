@@ -20,7 +20,6 @@
   --muted:#7A6E5F;
   --line:rgba(183,146,86,.35);
   --shadow:0 8px 24px rgba(43,36,31,.08);
-  --braderie-bg:#FBF3E4;
   --on-wine:#FFFFFF;
   color-scheme:light;
 }
@@ -36,7 +35,6 @@
     --muted:#B5A691;
     --line:rgba(216,183,127,.28);
     --shadow:0 8px 24px rgba(0,0,0,.35);
-    --braderie-bg:#2B2115;
     --on-wine:#241A16;
     color-scheme:dark;
   }
@@ -52,7 +50,6 @@
   --muted:#B5A691;
   --line:rgba(216,183,127,.28);
   --shadow:0 8px 24px rgba(0,0,0,.35);
-  --braderie-bg:#2B2115;
   --on-wine:#241A16;
   color-scheme:dark;
 }
@@ -89,14 +86,6 @@ a{color:inherit;}
 .hero-sub{
   font-family:'Cormorant Garamond',serif;font-style:italic;font-size:17px;color:var(--muted);
 }
-.hero-jump{
-  display:inline-flex;align-items:center;gap:8px;margin-top:18px;
-  background:var(--wine);color:var(--on-wine);text-decoration:none;
-  font-family:'Montserrat',sans-serif;font-weight:600;font-size:12.5px;
-  letter-spacing:.08em;text-transform:uppercase;
-  padding:10px 20px;border-radius:999px;box-shadow:var(--shadow);
-}
-
 /* ---- Controlbar ---- */
 .controlbar{
   position:sticky;top:0;z-index:20;
@@ -105,15 +94,6 @@ a{color:inherit;}
   border-bottom:1px solid var(--line);
   padding:10px 0;
 }
-.searchbox{position:relative;padding:0 18px;}
-#search{
-  width:100%;border:1px solid var(--line);border-radius:10px;
-  background:var(--paper-2);color:var(--ink);
-  font-family:'EB Garamond',serif;font-size:16px;
-  padding:10px 14px 10px 36px;outline:none;
-}
-#search:focus{border-color:var(--gold);}
-.search-ic{position:absolute;left:30px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:14px;pointer-events:none;}
 .nav-scroll{
   display:flex;gap:8px;overflow-x:auto;padding:10px 18px 2px;
   scrollbar-width:none;
@@ -127,8 +107,6 @@ a{color:inherit;}
   transition:background .15s,color .15s,border-color .15s;
 }
 .chip.active,.chip:hover{background:var(--wine);color:var(--on-wine);border-color:var(--wine);}
-.chip.chip-braderie{color:var(--wine-dark);border-color:var(--gold);background:var(--gold-soft);}
-.chip.chip-braderie.active,.chip.chip-braderie:hover{background:var(--wine);color:var(--on-wine);}
 .theme-toggle{
   flex:none;width:32px;height:32px;border-radius:999px;
   border:1px solid var(--line);background:var(--paper-2);color:var(--muted);
@@ -181,54 +159,6 @@ section.card-section.in{opacity:1;transform:none;}
 .wine-meta{font-family:'Montserrat',sans-serif;font-size:11px;letter-spacing:.03em;color:var(--muted);margin-top:2px;}
 .wine-desc{font-family:'EB Garamond',serif;font-style:italic;font-size:14.5px;color:var(--muted);margin-top:3px;line-height:1.35;}
 
-#emptyNote{display:none;text-align:center;padding:40px 18px;font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--muted);font-size:18px;}
-
-/* ---- Braderie special section ---- */
-#braderie{background:var(--braderie-bg);border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
-.braderie-badge{
-  display:inline-block;font-family:'Montserrat',sans-serif;font-weight:700;font-size:10.5px;
-  letter-spacing:.14em;text-transform:uppercase;color:var(--on-wine);background:var(--wine);
-  padding:4px 12px;border-radius:999px;margin-bottom:8px;
-}
-.braderie-dates{
-  font-family:'Montserrat',sans-serif;font-weight:600;font-size:12.5px;letter-spacing:.16em;
-  text-transform:uppercase;color:var(--wine);margin-top:4px;
-}
-.formule-card{
-  border:1px solid var(--gold);border-radius:12px;padding:18px 18px 16px;
-  background:var(--paper-2);box-shadow:var(--shadow);margin:18px 0;
-}
-.formule-title{
-  font-family:'Playfair Display',serif;font-weight:600;font-size:19px;
-  color:var(--wine-dark);text-align:center;margin:0 0 14px;
-}
-.formule-step{margin-bottom:12px;padding-bottom:12px;border-bottom:1px dashed var(--line);}
-.formule-step:last-of-type{border-bottom:none;margin-bottom:0;padding-bottom:0;}
-.step-label{
-  font-family:'Montserrat',sans-serif;font-weight:600;font-size:10.5px;
-  letter-spacing:.14em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:2px;
-}
-.step-name{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:17px;color:var(--ink);}
-.step-desc{font-family:'EB Garamond',serif;font-style:italic;font-size:13.5px;color:var(--muted);margin-top:2px;}
-.formule-price{text-align:center;margin-top:14px;padding-top:14px;border-top:1px solid var(--line);}
-.formule-price .amount{font-family:'Playfair Display',serif;font-weight:700;font-size:30px;color:var(--wine);}
-.formule-price .label{
-  display:block;font-family:'Montserrat',sans-serif;font-weight:500;font-size:10px;
-  letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-top:2px;
-}
-.ruffus-card{
-  background:var(--paper-2);border-radius:10px;padding:16px 18px;margin:6px 0 4px;
-  display:flex;flex-direction:column;gap:3px;box-shadow:var(--shadow);
-}
-.ruffus-name{font-family:'Playfair Display',serif;font-weight:600;font-size:18px;color:var(--wine-dark);}
-.ruffus-desc{font-family:'EB Garamond',serif;font-style:italic;font-size:13.5px;color:var(--muted);margin-bottom:6px;}
-.ruffus-prices{display:flex;gap:24px;}
-.ruffus-price-item{display:flex;flex-direction:column;}
-.ruffus-price-item .plabel{font-family:'Montserrat',sans-serif;font-weight:500;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);}
-.ruffus-price-item .pval{font-family:'Montserrat',sans-serif;font-weight:700;font-size:19px;color:var(--wine);}
-.grid2{display:flex;gap:16px;flex-wrap:wrap;}
-.grid2 .group{flex:1;min-width:240px;}
-
 footer{text-align:center;padding:34px 18px 10px;}
 .footer-rule{width:30px;height:1px;background:var(--gold);margin:0 auto 12px;opacity:.85;}
 .footer-brand{font-family:'Playfair Display',serif;font-weight:700;font-size:16px;color:var(--wine-dark);}
@@ -252,16 +182,10 @@ footer{text-align:center;padding:34px 18px 10px;}
   <div class="hero-place">Tournai</div>
   <div class="hero-rule"></div>
   <div class="hero-sub">Carte des Vins &amp; Boissons</div>
-  <a href="#braderie" class="hero-jump">🎉 Menu Spécial Braderie — 11 → 14 Sept.</a>
 </header>
 
 <div class="controlbar">
-  <div class="searchbox">
-    <span class="search-ic">⌕</span>
-    <input id="search" type="search" placeholder="Rechercher un vin, un spiritueux…" autocomplete="off"/>
-  </div>
   <nav class="nav-scroll" id="navScroll">
-    <a href="#braderie" class="chip chip-braderie" data-nav="braderie">🎉 Braderie</a>
     <a href="#aperitifs" class="chip" data-nav="aperitifs">Apéritifs</a>
     <a href="#verre" class="chip" data-nav="verre">Au Verre</a>
     <a href="#bulles" class="chip" data-nav="bulles">Bulles</a>
@@ -275,7 +199,6 @@ footer{text-align:center;padding:34px 18px 10px;}
 </div>
 
 <main id="main"></main>
-<div id="emptyNote">Aucun résultat pour cette recherche.</div>
 
 <footer>
   <div class="footer-rule"></div>
@@ -349,7 +272,15 @@ const BIERES = {
     ]},
     { label: "Bouteille", unit: "33cl", items: [
       { name: "Duvel", price: "5,50" },
-      { name: "Fourchette", price: "5,50" },
+      { name: "Fourchette", price: "6,50" },
+      { name: "Westmalle Triple", price: "6,50" },
+      { name: "Orval", price: "5,50" },
+      { name: "Orval 3 ans d'âge", price: "8,50" },
+      { name: "Triple Karmeliet", note: "0,4%", price: "5,00" },
+    ]},
+    { label: "Grands Formats", unit: "75cl", items: [
+      { name: "Fourchette", price: "17,00" },
+      { name: "Cantillon", priceLabel: "Prix sur demande" },
     ]},
   ],
 };
@@ -379,6 +310,7 @@ const DIGESTIFS = {
     { name: "Lemon - Jacoulot", price: "8,00" },
     { name: "Grappa - Molino", price: "10,00" },
     { name: "Tequila José Cuervo", price: "10,00" },
+    { name: "Chartreuse Verte", note: "5cl", price: "14,00" },
   ],
 };
 const SOFTS = [
@@ -460,7 +392,7 @@ const ROUGES_GROUPS = [
   { region:"Bourgogne", wines:[
     { millesime:"2023", name:"Bourgogne Rouge", domaine:"Dom. Sylvain Pataille", appellation:"Bourgogne", cepage:"Pinot Noir", desc:"Cerise, souple et fruité.", price:"59" },
     { millesime:"2023", name:"En Clemengeots", domaine:"Dom. Sylvain Pataille", appellation:"Marsannay", cepage:"Pinot Noir", desc:"Cerise noire, épices, tannin de soie, finale persistante.", price:"98" },
-    { millesime:"2023", name:"La Montagne", domaine:"Dom. Sylvain Pataille", appellation:"Marsannay", cepage:"Pinot Noir", desc:"Lieu-dit charpenté, fruits noirs, terres humides, grande garde.", price:"98" },
+    { millesime:"2023", name:"Chapitre", domaine:"Dom. Sylvain Pataille", appellation:"Marsannay", cepage:"Pinot Noir", desc:"Lieu-dit d'exception, fruits noirs profonds, tannin dense, très grande garde.", price:"118" },
     { millesime:"2023", name:"Savigny-lès-Beaune", domaine:"Dom. d'Ardhuy", appellation:"Clos des Guettes 1er Cru", cepage:"Pinot Noir", desc:"Griotte, épices, tannin fin, bouche soyeuse.", price:"83" },
     { millesime:"2023", name:"Gevrey-Chambertin", domaine:"Dom. d'Ardhuy", appellation:"Villages", cepage:"Pinot Noir", desc:"Cassis, épices, tannins fermes, grand terroir de Nuits.", price:"100" },
     { millesime:"2023", name:"Fleur de Pinot", domaine:"Dom. Sylvain Pataille", appellation:"Marsannay Rosé - Bourgogne", cepage:"Pinot Noir", desc:"Cerise, rose séchée, bouche précise et ample.", price:"111" },
@@ -506,32 +438,6 @@ const ROUGES_GROUPS = [
     { millesime:"2024", name:"El Picaro", domaine:"Bodega Matsu", appellation:"Toro", cepage:"Tempranillo", desc:"Fruits noirs, réglisse, structure dense.", price:"27" },
   ]},
 ];
-const BRADERIE = {
-  dates: "11 → 14 Septembre",
-  formule: {
-    title: "Formule Braderie", price: "35",
-    steps: [
-      { label:"Accueil", name:"Spritz ou coupe de Ruffus" },
-      { label:"Entrée", name:"Croquette de crevette", desc:"Panure croustillante, cœur fondant." },
-      { label:"Plat", name:"Jarret de cochon ou Cabillaud", desc:"Jarret mijoté à la bière belge, ou poisson du moment." },
-      { label:"Pour finir", name:"Dessert ou fromage" },
-    ],
-  },
-  ruffus: { name:"Ruffus", desc:"Méthode traditionnelle belge — Vignoble des Agaisses, Haulchin.", coupe:"10", bouteille:"45" },
-  bieres: [
-    { name:"Queue de Charrue Blonde", note:"25cl", price:"4,00" },
-  ],
-  streetFood: [
-    { name:"Fish and Chips", price:"13" },
-    { name:"Croque Monsieur à la Truffe", price:"15" },
-    { name:"Hot Dog du Corto", price:"13" },
-  ],
-  tapas: [
-    { name:"Croquette de Crevettes", note:"La pièce", price:"8" },
-    { name:"Planche de Fromage", price:"13" },
-    { name:"Planche de Charcuterie", price:"18" },
-  ],
-};
 
 // ============================================================
 // RENDU
@@ -544,12 +450,13 @@ function norm(s){
 }
 function drinkRow(item){
   const searchTxt = norm([item.name, item.note].filter(Boolean).join(' '));
+  const priceHtml = item.priceLabel ? esc(item.priceLabel) : `${esc(item.price)}&nbsp;€`;
   return `<div class="row" data-search="${esc(searchTxt)}">
     <div class="row-txt">
       <span class="row-name">${esc(item.name)}</span>
       ${item.note ? `<span class="row-note">${esc(item.note)}</span>` : ''}
     </div>
-    <span class="row-price">${esc(item.price)}&nbsp;€</span>
+    <span class="row-price">${priceHtml}</span>
   </div>`;
 }
 function drinkGroup(data){
@@ -613,85 +520,7 @@ function section(id, kicker, title, inner){
     ${inner}
   </section>`;
 }
-function braderieSection(){
-  const f = BRADERIE.formule;
-  const steps = f.steps.map(s => `<div class="formule-step">
-    <span class="step-label">${esc(s.label)}</span>
-    <div class="step-name">${esc(s.name)}</div>
-    ${s.desc ? `<div class="step-desc">${esc(s.desc)}</div>` : ''}
-  </div>`).join('');
-  const streetFoodRows = BRADERIE.streetFood.map(it => `<div class="row" data-search="${esc(norm(it.name))}">
-    <div class="row-txt"><span class="row-name">${esc(it.name)}</span></div>
-    <span class="row-price">${esc(it.price)}&nbsp;€</span>
-  </div>`).join('');
-  const tapasRows = BRADERIE.tapas.map(it => {
-    const searchTxt = norm([it.name, it.note].filter(Boolean).join(' '));
-    return `<div class="row" data-search="${esc(searchTxt)}">
-    <div class="row-txt">
-      <span class="row-name">${esc(it.name)}</span>
-      ${it.note ? `<span class="row-note">${esc(it.note)}</span>` : ''}
-    </div>
-    <span class="row-price">${esc(it.price)}&nbsp;€</span>
-  </div>`;
-  }).join('');
-  const spritzRows = SPRITZ_LIST.items.map(drinkRow).join('');
-  const bieresRows = BRADERIE.bieres.map(drinkRow).join('');
-  const formuleSearch = norm([f.title, ...f.steps.map(s=>[s.label,s.name,s.desc].filter(Boolean).join(' '))].join(' '));
-  const ruffusSearch = norm([BRADERIE.ruffus.name, BRADERIE.ruffus.desc].join(' '));
-
-  const inner = `
-    <div style="text-align:center;">
-      <span class="braderie-badge">Édition spéciale</span>
-      <div class="braderie-dates">${esc(BRADERIE.dates)}</div>
-    </div>
-
-    <div class="formule-card" data-search="${esc(formuleSearch)}">
-      <div class="formule-title">${esc(f.title)}</div>
-      ${steps}
-      <div class="formule-price">
-        <span class="amount">${esc(f.price)}&nbsp;€</span>
-        <span class="label">Formule complète</span>
-      </div>
-    </div>
-
-    <div class="grid2">
-      <div class="group">
-        <div class="group-tag"><span>Bar à Spritz</span></div>
-        ${spritzRows}
-      </div>
-      <div class="group">
-        <div class="group-tag"><span>Bières Belges</span></div>
-        ${bieresRows}
-      </div>
-      <div class="group">
-        <div class="group-tag"><span>Méthode Traditionnelle Belge</span></div>
-        <div class="ruffus-card" data-search="${esc(ruffusSearch)}">
-          <div class="ruffus-name">${esc(BRADERIE.ruffus.name)}</div>
-          <div class="ruffus-desc">${esc(BRADERIE.ruffus.desc)}</div>
-          <div class="ruffus-prices">
-            <div class="ruffus-price-item"><span class="plabel">Coupe</span><span class="pval">${esc(BRADERIE.ruffus.coupe)}&nbsp;€</span></div>
-            <div class="ruffus-price-item"><span class="plabel">Bouteille</span><span class="pval">${esc(BRADERIE.ruffus.bouteille)}&nbsp;€</span></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="grid2">
-      <div class="group">
-        <div class="group-tag"><span>Street Food</span></div>
-        ${streetFoodRows}
-      </div>
-      <div class="group">
-        <div class="group-tag"><span>Tapas &amp; Planches</span></div>
-        ${tapasRows}
-      </div>
-    </div>
-  `;
-  return section('braderie', 'Braderie de Tournai', 'Menu Spécial Braderie', inner);
-}
-
 const sections = [
-  braderieSection(),
   section('aperitifs', "À l'apéritif", 'Apéritifs', [
     drinkGroup(APERITIFS), drinkGroup(SPRITZ_LIST), drinkGroup(GINS), drinkGroup(RHUMS), drinkGroup(WHISKYS),
   ].join('')),
@@ -726,30 +555,6 @@ const spyObs = new IntersectionObserver((entries)=>{
   });
 },{ rootMargin:'-45% 0px -50% 0px', threshold:0 });
 document.querySelectorAll('.card-section').forEach(s=>spyObs.observe(s));
-
-// ---- Search / filter ----
-const searchInput = document.getElementById('search');
-const emptyNote = document.getElementById('emptyNote');
-searchInput.addEventListener('input', ()=>{
-  const q = norm(searchInput.value.trim());
-  let anyVisible = false;
-  document.querySelectorAll('.card-section').forEach(sec=>{
-    let sectionHasMatch = !q;
-    sec.querySelectorAll('.row, .wine-row, .formule-card, .ruffus-card').forEach(row=>{
-      const hit = !q || (row.dataset.search||'').includes(q);
-      row.style.display = hit ? '' : 'none';
-      if(hit) sectionHasMatch = true;
-    });
-    sec.querySelectorAll('.group, .region-block').forEach(group=>{
-      const rows = group.querySelectorAll('.row, .wine-row, .formule-card, .ruffus-card');
-      const anyRowVisible = Array.from(rows).some(r=>r.style.display !== 'none');
-      group.style.display = (rows.length===0 || anyRowVisible) ? '' : 'none';
-    });
-    sec.style.display = sectionHasMatch ? '' : 'none';
-    if(sectionHasMatch) anyVisible = true;
-  });
-  emptyNote.style.display = (q && !anyVisible) ? 'block' : 'none';
-});
 
 // ---- Back to top ----
 const totop = document.getElementById('totop');
